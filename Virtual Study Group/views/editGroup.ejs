@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - Edit Group Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../../css/editGroup.css">
+    <link rel="stylesheet" href="../../icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+
+<body>
+    <nav>
+        <div class="navbar">
+            <div class="line"></div>
+        </div>
+
+        <a href="/home"><img src="../../images/logowhite.png" alt="Home"></a>
+        <div class="profile-container">
+            <a href="user-notification-request"><i class="fa fa-bell-o profile-bell" aria-hidden="true"></i></a>
+            <img alt="No Image" src=<%=typeof proPic !="undefined" ? proPic : "" %> >
+            <i class="fa fa-chevron-down profile-arrow" aria-hidden="true"></i>
+            <div class="profile-container-option">
+                <ul>
+                    <li>
+                        <a href="/user-profile">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            <span class="profile-span">Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/user-settings">
+                            <i class="fa fa-cog" aria-hidden="true"></i>
+                            <span class="profile-span">Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/logout">
+                            <i class="fa fa-power-off" aria-hidden="true"></i>
+                            <span class="profile-span">LogOut</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+    </nav>
+    <div class="container">
+        <%- include('partials/sidenav') %>
+        
+        <div class="content">
+            <div class="mainContainer">
+                <header>
+                    <h1>
+                        Edit Group
+                    </h1>
+                </header>
+                <form action="../../group/<%=group._id%>/editGroup" method="post" enctype="multipart/form-data">
+
+                    <div class="imageContainer">
+                        <div class="imageSubContainer">
+
+                            <!-- SOURCE WILL BE ALREADY DEFINED HERE OF IMAGE -->
+
+                            <img src="<%=group.grouppic%>" alt="GROUP IMAGE" class="profile-pic">
+                        </div>
+                        <i class="fa fa-camera upload-btn" aria-hidden="true"></i>
+                        <input type="file" accept="image/*" class="file-upload" name="changeGroupImage">
+                    </div>
+
+                    <div class="inputContainer">
+                        <div class="inputSubContainer">
+                            <input type="text" name="grpTitle" class="inputField" value="<%=group.title%>"
+                                placeholder="Enter Group Title Here">
+                        </div>
+
+                        <div class="inputSubContainer">
+                            <input type="text" name="grpDesc" class="inputField"
+                                value="<%=group.description%>" placeholder="Enter Group Description Here">
+                        </div>
+
+                        <div class="privacyContainer">
+                            <span>Privacy:</span>
+                            <div class="privacySubContainer">
+                                <div class="radioContainer">
+                                    <input type="radio" name="privacy" value="public"
+                                    <% if(group.privacy == "public") {%>
+                                        checked
+                                    <% } %>>
+                                    <label for="privacy">Public (Anyone can join)</label>
+                                </div>
+                                <div class="radioContainer">
+                                    <input type="radio" name="privacy" value="private"
+                                    <% if(group.privacy == "private") {%>
+                                        checked
+                                    <% } %>>
+                                    <label for="privacy">Private (Get requests from Studdy-Buddy)</label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btnSubmit">
+                        <input type="submit" value="Edit">
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        
+        <%- include('partials/search') %>
+        
+        <script>
+            //sidenav - ARROW v
+            const arrow = document.querySelector(".arrow");
+            arrow.addEventListener("click", (e) => {
+                const parent = e.target.parentElement.parentElement;
+                console.log(parent);
+                parent.classList.toggle("show-menu");
+                // arrow.style.transform="rotate(-180deg)";
+                arrow.classList.toggle("rotate");
+            });
+
+            //Hamburger
+            const navbar = document.querySelector(".navbar");
+            const sidebar = document.querySelector(".sideNav");
+            const sideNavSearch = document.querySelector(".sideNavSearch")
+            console.log(sideNavSearch);
+
+            navbar.addEventListener("click", () => {
+                navbar.classList.toggle("active");
+                sidebar.classList.toggle("close");
+                sideNavSearch.classList.toggle("d-none");
+            })
+
+            //Profile-arrow v
+            const profileArrow = document.querySelector(".profile-arrow");
+            const profileMenu = document.querySelector(".profile-container-option");
+            console.log(profileMenu);
+            profileArrow.addEventListener("click", () => {
+                profileMenu.classList.toggle("open");
+                profileArrow.classList.toggle("rotate");
+            })
+
+
+            const profilePic = document.querySelector('.profile-pic');
+            const fileUpload = document.querySelector('.file-upload');
+            const uploadBtn = document.querySelector('.upload-btn');
+            // console.log(uploadBtn);
+
+            var readUrl = function (input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        profilePic.setAttribute('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            fileUpload.addEventListener('change', function () {
+                readUrl(this);
+            })
+            uploadBtn.addEventListener('click', function () {
+                fileUpload.click();
+            })
+
+        </script>
+</body>
+
+</html>

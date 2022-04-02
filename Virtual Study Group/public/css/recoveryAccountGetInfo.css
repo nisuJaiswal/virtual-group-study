@@ -1,0 +1,163 @@
+*{
+    font-family: 'Open Sans', sans-serif;
+    margin: 0px;
+    padding:0px;   
+    color:white; 
+}
+ html{
+     font-size: 62.5%;
+ }
+ body::before{
+     content: '';
+     position: absolute;
+     height: 100%;
+     width: 100%;
+     background: url('../images/bg.jpg') no-repeat center center/cover;
+     z-index: -1;
+     opacity: .97;
+ }
+ nav img{
+    height: 14rem;
+    width: 36rem;
+ }
+ .heading{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+ }
+ .heading h1{
+     font-size: 2.6rem;
+ }
+ .heading h3{
+    font-size: 2.2rem;
+    font-weight: 500;
+    margin: 1rem 0 0 0;
+}
+ .container
+ { 
+    border-radius:10px;
+    background-color: rgba(34, 33, 33, 0.404);
+    position:absolute;
+    width: 22vw;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    padding: 20rem 2rem ;
+    /* padding-top: 10rem; */
+    padding-bottom: 18rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.fa{
+    color:rgb(63, 58, 58);
+    font-size: 1.6rem;
+    padding: .1rem .5rem;
+}
+
+.inputContainer
+{
+    width:100%;
+    
+}
+.lastChild{
+    margin-top: 2.6rem;
+    margin-bottom: 3rem;
+}
+
+ .inputContainer ol{
+     /* border: 2px solid white; */
+     padding: 2rem 3rem;
+     /* margin: 1rem 0 0 0; */
+     font-size: 1.9rem;
+ }
+ .inputContainer ol li{
+     margin: 1rem 0;
+ }
+ .inputContainer ol li span+span{
+     display: block;
+     margin: .6rem 0;
+     /* border: 2px solid white; */
+ }
+.btn{
+    text-align: center;
+    margin: 0 0 .6rem 0;
+}
+.btn input{
+    /* height: 2.5rem; */
+    /* width: 6rem; */
+    background:rgb(255, 255, 255) ;
+    color: rgb(0, 0, 0) ;
+    border: solid rgba(255, 255, 255, 0);
+    border-radius: 999px;
+    font-size: 1.5rem;
+    padding: .8rem 2rem;
+    transition: all .4s ease;
+    /* text-transform: uppercase; */
+}
+.btn input:hover
+    {
+        /* border: 3px solid rgb(199, 199, 199); */
+        background: rgb(199, 199, 199);
+        color: rgb(0, 0, 0);
+        cursor: pointer;
+    }
+.signUpOption{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.2rem 0;
+    margin-bottom: .7rem;
+}
+.signUpOption a{
+    text-decoration: none;
+    font-size: 1.4rem;
+}
+a:hover{
+    text-decoration: underline;
+}
+.subContainer{
+    position: absolute; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 80%;
+}
+
+@media all and (min-width: 1265px){
+    html{
+        font-size: 60%;
+    }
+    .container{
+        width:25vw;
+    }
+}
+@media all and (min-width:1026px) and (max-width:1265px) {
+    html{
+        font-size: 50%;
+    }
+}
+@media all and (min-width:427px) and (max-width:1025px) {
+    html{
+        font-size: 50%;
+    }
+    .container{
+        /* padding: 2rem 0; */
+        /* height: 15rem; */
+        width: 36rem;
+    }
+}
+@media all and (min-width:1px) and (max-width:426px) {
+    html{
+        font-size: 40%;
+    }
+    .container{
+        /* padding: 2rem 0; */
+        padding-top: 20rem;
+        width: 35rem;
+    }
+}
+

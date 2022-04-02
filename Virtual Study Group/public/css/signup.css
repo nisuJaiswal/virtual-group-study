@@ -1,0 +1,220 @@
+*{
+    font-family: 'Open Sans', sans-serif;
+    margin: 0px;
+    padding:0px;   
+    color:white; 
+}
+body::before{
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: url('../images/bg.jpg') no-repeat center center/cover;
+    z-index: -1;
+    opacity: .97;
+}
+ /* body{
+    background: url('../Images/bg.jpg') no-repeat;
+    background-size:100%;
+ } */
+ html{
+     font-size:62.5%;
+ }
+ nav img{
+    height: 14rem;
+    width: 36rem;
+ }
+ .heading{
+    margin-bottom: 1rem;
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+ h1{
+     font-size: 3.4rem;
+ }
+ 
+.container{
+    background-color: rgba(34, 33, 33, 0.404);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 50vw;
+    padding: 5rem 0rem;
+    border-radius: 1rem;
+    /* padding-top: 2rem; */
+    padding-bottom: 3rem;
+    flex-wrap: wrap;
+}
+.frmMain{
+    display: flex;
+    flex-wrap: wrap;
+    /* border: 2px solid black; */
+}
+.main{
+    margin-top:2rem ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.subContainer{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+}
+/* .right{
+     border-left: 3px solid white;
+} */
+
+.line{
+    background-color: white;
+    transform: rotate(180deg);
+    width: 3px;
+    border-radius: .4rem;
+}
+.mainSubContainer{
+    /* position: absolute; */
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    /* border: 2px solid black; */
+}
+
+.inputField{
+    font-size: 1.6rem;
+    padding: .8rem 1.6rem;
+    border-radius: 999px;
+    margin: .8rem .2rem;
+    /* width: 14.6rem; */
+    border:none;
+    color: black;
+}
+.inputField:focus{
+    outline-width: 0;
+}
+.btnSubmit{
+    /* position: absolute; */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* padding-top: 1.8rem; */
+}
+.btnSubmit input{
+    padding: .6rem 1.21rem;
+    color: black;
+    font-size: 1.6rem;
+    border-radius: 999px;
+    background-color: white;
+    font-weight: 500;
+    border: 3px solid white;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+.btnSubmit input:hover
+{
+    background: rgb(199, 199, 199);
+    color: rgb(0, 0, 0);
+    border: 3px solid rgb(199, 199, 199);
+}
+.btnSubmit a{
+    font-size: 1.4rem;
+}
+.login{
+    /* padding: 2rem 0; */
+    margin-top: 2.2rem;
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: underline;
+}
+
+.emailExistError{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 2.5rem;
+    border-radius: 1.2rem;
+    font-size: 1.2rem;
+    margin: 1rem auto 0 auto;
+    width: 100%;
+    text-align: center;
+    animation: blink 2s infinite;
+    visibility: hidden;
+}
+.emailExistError h3{
+    animation: blink .5s infinite;
+    animation-iteration-count: 3;
+}
+@keyframes blink{
+    0%{
+        color:white;
+    }
+    50%{
+        color:red;
+    }
+    100%{
+        color: white;
+    }
+}
+
+@media all  and (max-width:1086px) {
+    html{
+        font-size: 50%;
+    }
+}
+
+@media all  and (min-width:425px) and (max-width:880px) {
+    html{
+        font-size: 50%;
+    }
+    .line{
+        display: none;
+    }
+    .subContainer{
+        padding: .2rem 2rem;
+    }
+}
+
+@media all  and (min-width:321px) and (max-width:426px) {
+    html{
+        font-size: 45%;
+    }
+    .line{
+        display: none;
+    }
+    .subContainer{
+        padding: .2rem 1rem;
+    }
+    .container{
+        padding:5rem;
+    }
+    nav{
+        text-align: center;
+     }
+}
+@media all  and (min-width:1px) and (max-width:320px) {
+    html{
+        font-size: 45%;
+    }
+    .line{
+        display: none;
+    }
+    .subContainer{
+        padding: .2rem 0;
+    }
+    .container{
+        padding:5rem;
+    }
+    nav{
+        text-align: center;
+     }
+}

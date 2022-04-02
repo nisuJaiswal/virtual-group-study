@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - Group Information</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../../css/groupInfo.css">
+    <link rel="stylesheet" href="../../icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+
+<body>
+    <nav>
+        <div class="navbar">
+            <div class="line"></div>
+        </div>
+        <a href="/home"><img src="../../images/logowhite.png" alt="Home"></a>
+        <div class="profile-container">
+            <a href="user-notification-request"><i class="fa fa-bell-o profile-bell" aria-hidden="true"></i></a>
+            <img alt="No Image" src=<%=typeof proPic !="undefined" ? proPic : "" %> >
+            <i class="fa fa-chevron-down profile-arrow" aria-hidden="true"></i>
+            <div class="profile-container-option">
+                <ul>
+                    <li>
+                        <a href="/user-profile">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            <span class="profile-span">Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/user-settings">
+                            <i class="fa fa-cog" aria-hidden="true"></i>
+                            <span class="profile-span">Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/logout">
+                            <i class="fa fa-power-off" aria-hidden="true"></i>
+                            <span class="profile-span">LogOut</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </nav>
+    <div class="container">
+        <%- include('partials/sidenav') %>
+
+            <div class="content">
+                <div class="mainContainer">
+                    <header>
+                        <h1>
+                            Group Information
+                        </h1>
+                        <% if(admin._id==uId){ %>
+                            <button>
+                                <a href="../../group/<%=group._id%>/editGroup" class="editGroupLink">
+                                    <i class="fas fa-pen"></i>
+                                </a>
+                            </button>
+                            <% } %>
+                    </header>
+
+                    <div class="imgDetailsWrapper">
+
+                        <div class="imageContainer">
+                            <div class="imageSubContainer">
+                                <img src=<%=group.grouppic %> alt="Group Image" class="profile-pic">
+                            </div>
+                        </div>
+
+                        <div class="inputContainer">
+                            <div class="inputSubContainer">
+                                <span class="inputField">
+                                    <%= group.title %>
+                                </span>
+                            </div>
+
+                            <div class="inputSubContainer">
+                                <span class="inputField">
+                                    <%= group.description %>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="participantWrapper">
+                        <header>
+                            Participants (<%= group.memberid.length; %>):
+                        </header>
+
+                        <div class="participantContainer">
+
+                            <!-- SINGLE CONTAINER FOR A PARTICIPANT -->
+                            <div class="participant">
+                                <div class="wrapperClassImg">
+                                    <div class="partImgContainer">
+                                        <img src=<%=admin.profilepic %> alt="Admin Image">
+                                    </div>
+                                    <a href="../../user/<%=admin._id%>/profile" class="userName">
+                                        <%= admin.firstname %>&nbsp;<%= admin.lastname %>
+                                    </a>
+                                    <span class="admin">
+                                        Admin
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- END OF CONTAINER -->
+
+                            <!-- ANOTHER CONTAINER -->
+                            <% if(typeof participants !="undefined" ) { %>
+                                <% participants.forEach((member)=>{ %>
+                                    <div class="participant" id="<%=member._id%>">
+                                        <div class="wrapperClassImg" >
+                                            <div class="partImgContainer">
+                                                <img src=<%=member.profilepic%> alt="Participants Image">
+                                            </div>
+                                            <a href="../../user/<%=member._id%>/profile" class="userName">
+                                                <%= member.firstname %>&nbsp;<%= member.lastname %>
+                                            </a>
+                                        </div>
+                                        <% if(admin._id==uId){ %>
+                                            <i class="fa fa-trash-o" aria-hidden="true" id="<%=group._id%>" onclick="deleteUserFromGroup(this.parentElement.id,this.id)"></i>
+                                            <% } %>
+
+                                    </div>
+                                    <% }) %>
+                                        <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%- include('partials/search') %>
+
+                <script>
+                    //sidenav - ARROW v
+                    const arrow = document.querySelector(".arrow");
+                    arrow.addEventListener("click", (e) => {
+                        const parent = e.target.parentElement.parentElement;
+                        console.log(parent);
+                        parent.classList.toggle("show-menu");
+                        // arrow.style.transform="rotate(-180deg)";
+                        arrow.classList.toggle("rotate");
+                    });
+
+                    //Hamburger
+                    const navbar = document.querySelector(".navbar");
+                    const sidebar = document.querySelector(".sideNav");
+                    const sideNavSearch = document.querySelector(".sideNavSearch")
+                    console.log(sideNavSearch);
+
+                    navbar.addEventListener("click", () => {
+                        navbar.classList.toggle("active");
+                        sidebar.classList.toggle("close");
+                        sideNavSearch.classList.toggle("d-none");
+                    })
+
+                    //Profile-arrow v
+                    const profileArrow = document.querySelector(".profile-arrow");
+                    const profileMenu = document.querySelector(".profile-container-option");
+                    console.log(profileMenu);
+                    profileArrow.addEventListener("click", () => {
+                        profileMenu.classList.toggle("open");
+                        profileArrow.classList.toggle("rotate");
+                    })
+
+
+                    const profilePic = document.querySelector('.profile-pic');
+                    const fileUpload = document.querySelector('.file-upload');
+                    const uploadBtn = document.querySelector('.upload-btn');
+                    // console.log(uploadBtn);
+
+                    var readUrl = function (input) {
+                        if (input.files && input.files[0]) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                profilePic.setAttribute('src', e.target.result);
+                            }
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    }
+
+                    function deleteUserFromGroup(uId,gId){
+                        var requestOptions = {
+                            method: 'POST',
+                            redirect: 'follow'
+                        };
+
+                        fetch(`http://localhost:8080/group-admin/${uId}/${gId}/delete-from-group`, requestOptions)
+                            .then(response => response.text())
+                            .then(result => console.log(result))
+                            .catch(error => console.log('error', error));
+                        document.getElementById(uId).remove();
+                        // alert(uId)
+                    }
+            // fileUpload.addEventListener('change', function () {
+            //     readUrl(this);
+            // })
+            // uploadBtn.addEventListener('click', function () {
+            //     fileUpload.click();
+            // })
+
+                </script>
+</body>
+
+</html>

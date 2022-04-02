@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - Feedback</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/feedback.css">
+    <link rel="stylesheet" href="icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+
+<body>
+    <nav>
+        <div class="navbar">
+            <div class="line"></div>
+        </div>
+
+        <%- include('partials/profileButton') %>
+    </nav>
+    <div class="container">
+        <%- include('partials/sidenav') %>
+        <div class="content">
+            <div class="mainContainer">
+                <header>
+                    <h2>
+                        Feedback
+                    </h2>
+                </header>
+                <form action="/feedback" method="POST">
+                    <h3>Please complete following form and help us to improve our user experience.</h3>
+                    <div class="rating-container">
+                        <h4>What is your opinion for our website?</h4>
+                        <div class="emoji-container rotateDiv">
+                            <input type="radio" name="rate" id="excellent" value="5">
+                            <label for="excellent" class="fa fa-star"></label>
+                            <input type="radio" name="rate" id="veryGood" value="4">
+                            <label for="veryGood" class="fa fa-star"></label>
+                            <input type="radio" name="rate" id="Good" value="3">
+                            <label for="Good" class="fa fa-star"></label>
+                            <input type="radio" name="rate" id="Bad" value="2">
+                            <label for="Bad" class="fa fa-star"></label>
+                            <input type="radio" name="rate" id="veryBad" value="1">
+                            <label for="veryBad" class="fa fa-star"></label>
+                        </div>
+                    </div>
+                    <div class="catagory-container">
+                        <h4>Select Your Feedback category below :</h4>
+                        <div class="radio-btn-container">
+                            <div class="radio-btn" id="radio-btn-1">
+                                <input type="radio" onclick="hide();" name="catagory" value="Suggestion" checked>
+                                <label for="suggestion">Suggestion</label>
+                            </div>
+                            <div class="radio-btn" id="radio-btn-2">
+                                <input type="radio" onclick="hide();" name="catagory" value="Something is not good">
+                                <label for="somethingisnotgood">Something is not good</label>
+                            </div>
+                            <div class="radio-btn" id="radio-btn-3">
+                                <input type="radio" onclick="hide();" name="catagory" value="Complain">
+                                <label for="complain">Complain</label>
+                            </div>
+                            <div class="radio-btn" id="radio-btn-4">
+                                <input type="radio" onclick="show();" name="catagory" id="optionOther">
+                                <label for="other">Other</label>
+                                <input type="text" class="optionTextBox" name="otherCatagory" placeholder="Please Provide Catagory" value="other">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="textArea-container">
+                        <h4>Please provide us your valuable Feedback :</h4>
+                        <textarea name="feedback" cols="60" rows="6"
+                            placeholder="Provide your feedback here" name="feedback"></textarea>
+                    </div>
+                    <div class="btnSubmit">
+                        <input type="submit" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <%- include('partials/search') %>
+        
+        <script>
+            //sidenav - ARROW v
+            const arrow = document.querySelector(".arrow");
+            arrow.addEventListener("click", (e) => {
+                const parent = e.target.parentElement.parentElement;
+                console.log(parent);
+                parent.classList.toggle("show-menu");
+                arrow.classList.toggle("rotate");
+            });
+
+            //Hamburger
+            const emojiContainer = document.querySelector('.emoji-container')
+            const navbar = document.querySelector(".navbar");
+            const sidebar = document.querySelector(".sideNav");
+            const optionTextBox = document.querySelector(".optionTextBox");
+            const subMenu = document.querySelectorAll(".sub-menu");
+            // const emojiContainer = document.querySelector(".emoji-container")
+            const hoverToggle = document.querySelector(".hoverToggle")
+            const hoverToggleTwo = document.querySelector(".hoverToggleTwo")
+            console.log(hoverToggle);
+
+            navbar.addEventListener("click", () => {
+                navbar.classList.toggle("active");
+                sidebar.classList.toggle("close");
+                sidebar.classList.toggle("open");
+                optionTextBox.classList.toggle('d-none');
+            })
+            hoverToggle.addEventListener('mouseenter', () => {
+                console.log("entered");
+                emojiContainer.classList.remove('rotateDiv');
+            })
+            hoverToggle.addEventListener('mouseleave', () => {
+                console.log("exited");
+                emojiContainer.classList.add('rotateDiv');
+            })
+
+            hoverToggleTwo.addEventListener('mouseenter', () => {
+                console.log("entered");
+                emojiContainer.classList.remove('rotateDiv');
+            })
+            hoverToggleTwo.addEventListener('mouseleave', () => {
+                console.log("exited");
+                emojiContainer.classList.add('rotateDiv');
+            })
+
+            //Profile-arrow v
+            const profileArrow = document.querySelector(".profile-arrow");
+            const profileMenu = document.querySelector(".profile-container-option");
+            // console.log(profileMenu);
+            profileArrow.addEventListener("click", () => {
+                profileMenu.classList.toggle("open");
+                profileArrow.classList.toggle("rotate");
+            })
+
+            //Other-Btn
+            const otherBtn = document.querySelector("#optionOther");
+            function hide() {
+                optionTextBox.classList.remove('active');
+            }
+            function show() {
+                optionTextBox.classList.add('active');
+            }
+        </script>
+</body>
+
+</html>

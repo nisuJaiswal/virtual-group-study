@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - discussion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../../css/discussion.css">
+    <link rel="stylesheet" href="../../icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+</head>
+
+<body>
+    <nav>
+        <div class="navbar">
+            <div class="line"></div>
+        </div>
+
+        <a href="/home"><img src="../../images/logowhite.png" alt="Home"></a>
+        <div class="profile-container">
+            <a href="user-notification-request"><i class="fa fa-bell-o profile-bell" aria-hidden="true"></i></a>
+            <img alt="No Image" src=<%=typeof proPic !="undefined" ? proPic : "" %> >
+            <i class="fa fa-chevron-down profile-arrow" aria-hidden="true"></i>
+            <div class="profile-container-option">
+                <ul>
+                    <li>
+                        <a href="/user-profile">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            <span class="profile-span">Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/user-settings">
+                            <i class="fa fa-cog" aria-hidden="true"></i>
+                            <span class="profile-span">Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/logout">
+                            <i class="fa fa-power-off" aria-hidden="true"></i>
+                            <span class="profile-span">LogOut</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </nav>
+    <div class="container">
+
+        <%- include('partials/sidenav') %>
+
+            <div class="content">
+                <div class="mainContainer" id="mainContainerId">
+                    <header>
+                        <img src=<%=group.grouppic %> alt="GroupImage">
+                        <a href="../../group/<%=group._id%>/detail">
+                            <%=group.title%>
+                        </a>
+                    </header>
+                    <div class="formContainer">
+                        <div class="inputContainer">
+                            <div class="inputSubContainer">
+                                <input type="text" name="grpTitle" class="inputField" id="disTitle"
+                                    placeholder="Enter Title For Discussion" required>
+                            </div>
+
+                            <div class="inputSubContainer">
+                                <input type="text" name="grpDiscussion" class="inputField" id="disDesc"
+                                    placeholder="Enter Description For Discussion" required>
+                            </div>
+                        </div>
+                        <div class=" iconContainer">
+                            <div class="pinContainer">
+                                <!-- <i class="fa fa-paperclip clip" aria-hidden="true"></i>
+
+                                <input type="file" id="inputFile"> -->
+
+                                <div class="fileDropped d-none">
+                                    <p id="filePath">
+                                        Nisarg Kansara Rakeshbhai
+                                        <span class='close'></span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btnSend" id="<%=group._id%>" onclick="sendDiscussion(this.id)">
+                                <i class="fa fa-paper-plane-o" aria-hidden="true" id="SendButton"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- CONTAIINER FOR A SINGLE DISCUSSION -->
+                    <% discussion.forEach((info)=>{%>
+                        <div class="discussionContainer">
+                            <div class="discussion">
+                                <header>
+                                    <img src="<%=info.senderImage%>" alt="User Image">
+                                    <a href="../../user/<%=info.senderId%>/profile">
+                                        <%=info.firstname%>&nbsp;<%=info.lastname%>
+                                    </a>
+                                </header>
+                                <div class="subDiscussion">
+                                    <h3>
+                                        <%=info.title%>
+                                    </h3>
+                                    <p>
+                                        <%=info.description%>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <%})%>
+                            <!-- END OF THE CONTAINER -->
+
+
+                </div>
+            </div>
+
+            <%- include('partials/search') %>
+
+                <script src="/socket.io/socket.io.js"></script>
+                <script>
+                    const userid = '<%-sendUserID%>';
+                    // alert(userid)
+                    var socket = io();
+
+                    socket.emit("joinedGroupChat", { grpChatId: document.getElementById("SendButton").parentElement.id, userSenderId: userid });
+                    function sendDiscussion(id) {
+                        // alert("Group ID " + id)
+                        const title = document.getElementById("disTitle");
+                        const description = document.getElementById("disDesc");
+                        socket.emit("sendMsg", { title: title.value, desc: description.value });
+                    }
+
+                    socket.on("sendMsgToAll", (data) => {
+                        document.getElementById("mainContainerId").innerHTML += `<div class="discussionContainer">\
+                    <div class="discussion">
+                        <header>
+                            <img src="${data.userImage}" alt="User Image">
+                            <a href="../../user/${data.userId}/profile">${data.userFirstname}&nbsp;${data.userLastname}</a>
+                        </header>
+                        <div class="subDiscussion">
+                            <h3>${data.msg.title}</h3>
+                            <p>${data.msg.desc}</p>
+                        </div>
+                    </div>
+                </div>`;
+                    })
+                </script>
+                <script>
+                    //sidenav - ARROW v
+                    const arrow = document.querySelector(".arrow");
+                    arrow.addEventListener("click", (e) => {
+                        const parent = e.target.parentElement.parentElement;
+                        // console.log(parent);
+                        parent.classList.toggle("show-menu");
+                        // arrow.style.transform="rotate(-180deg)";
+                        arrow.classList.toggle("rotate");
+                    });
+
+                    //Hamburger
+                    const navbar = document.querySelector(".navbar");
+                    const sidebar = document.querySelector(".sideNav");
+                    const sideNavSearch = document.querySelector(".sideNavSearch")
+                    // console.log(sideNavSearch);
+
+                    navbar.addEventListener("click", () => {
+                        navbar.classList.toggle("active");
+                        sidebar.classList.toggle("close");
+                        sideNavSearch.classList.toggle("d-none");
+                    })
+
+                    //Profile-arrow v
+                    const profileArrow = document.querySelector(".profile-arrow");
+                    const profileMenu = document.querySelector(".profile-container-option");
+                    // console.log(profileMenu);
+                    profileArrow.addEventListener("click", () => {
+                        profileMenu.classList.toggle("open");
+                        profileArrow.classList.toggle("rotate");
+                    })
+
+                    //file-Attach
+                    const filePath = document.querySelector('#filePath');
+                    const fileDropped = document.querySelector('.fileDropped')
+                    const paperclip = document.querySelector('.clip');
+                    const fileInput = document.querySelector('#inputFile');
+
+                    paperclip.addEventListener('click', () => {
+                        fileInput.click();
+                    })
+
+                    document.getElementById('inputFile').onchange = function (e) {
+                        e.preventDefault();
+                        // console.log(e.target.files[0].name);
+                        filePath.innerText = `${e.target.files[0].name}`;
+
+                        const crossBtn = document.createElement('span');
+                        crossBtn.classList.add('crossBtn');
+                        filePath.appendChild(crossBtn);
+
+                        fileDropped.classList.remove('d-none');
+                        // dropFiles.classList.add('d-none');
+
+                        crossBtn.addEventListener('click', () => {
+                            // console.log('cross Clicked');
+                            // dropFiles.classList.remove('d-none');
+                            fileDropped.classList.add('d-none');
+                            fileInput.value = '';
+                        })
+                    };
+                </script>
+</body>
+
+</html>

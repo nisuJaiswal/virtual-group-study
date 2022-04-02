@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - Login</title>
+</head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+    integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://kit.fontawesome.com/38f0fc9536.js" crossorigin="anonymous"></script>
+    
+<link rel="stylesheet" href="css/login.css">
+
+<body>
+    <nav>
+        <img src="images/logoblack.png" alt="VSG Logo">
+    </nav>
+    <div class="container">
+        <div class="subContainer">
+            <form action="/login" method="post">
+                <div class="heading">
+                    <h1>LOG IN</h1>
+                </div>
+                <div class="inputContainer">
+                    <div class="box">
+                        <label for="username"><i class="fa fa-user" aria-hidden="true"></i></label>
+                        <input type="text" name="username" placeholder="Username/E-mail" required>
+                    </div>
+                    <a href="/recoveryAccountAuth">Forget E-mail/Username?</a>
+                </div>
+                <div class="inputContainer lastChild">
+                    <div class="box">
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                        <input type="password" name="password" placeholder="Password" id="inputPass" required><br>
+                        <span>
+                                <i class="fa fa-eye fa-eye-slash showPass" aria-hidden="true"></i>
+                        </span>
+                        
+
+                    </div>
+                    <a href="/resetPasswordAuth">Forget Password?</a>
+                </div>
+                <center>
+                    <% if(visible =="visible"){ %>
+                        <p class="error" style="visibility:visible;">Invalid Username or Password</p>
+                    <% }else{ %>
+                        <p class="error">Invalid Username or Password</p>
+                    <% } %>
+                </center>
+                <div class="btn">
+                    <input type="submit" name="Submit" value="Log In">
+                </div>
+
+                <div class="signUpOption">
+                    <a href="/signup">Don't have Account? Sign UP</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+    const showBtn = document.querySelector('.showPass');
+    const inputPass = document.querySelector('#inputPass');
+    showBtn.addEventListener('click',()=>{
+        console.log('clicked')
+        showBtn.classList.toggle('fa-eye-slash');
+        if(showBtn.classList.length == 3){
+            // console.log(showBtn.classList.length );
+            inputPass.type = "text";
+        }
+        if(showBtn.classList.length == 4){
+            // console.log(showBtn.classList.length );
+            inputPass.type = "password";
+        }
+    })
+</script>
+</html>

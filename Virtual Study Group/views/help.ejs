@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - Help</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/help.css">
+    <link rel="stylesheet" href="icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+
+<body>
+    <nav>
+        <div class="navbar">
+            <div class="line"></div>
+        </div>
+
+        <%- include('partials/profileButton') %>
+    </nav>
+    <div class="container">
+        <%- include('partials/sidenav') %>
+        <div class="content">
+            <div class="mainContainer">
+                <header>
+                    <h2>
+                        Help
+                    </h2>
+                </header>
+                <ul>
+                    <li>
+                        <a href="/help-details">How do I change my password?</a>
+                    </li>
+                    <li>
+                        <a href="/help-details#changePass">How do I edit my posts?</a>
+                    </li>
+                    <li>
+                        <a href="/help-details#editPost">How do I add Study Buddy?</a>
+                    </li>
+                    <li>
+                        <a href="/help-details#addStudyBuddy">How do I Create Group?</a>
+                    </li>
+                    <li>
+                        <a href="/help-details#crateGroup">How do I Join Group?</a>
+                    </li>
+                    <li>
+                        <a href="/help-details#joinGroup">How do I Upload materials?</a>
+                    </li>
+                    <!-- <li>
+                        <a href="#">How do I chat with Study Buddy?</a>
+                    </li> -->
+                    <li>
+                        <a href="/help-details#uploadMaterial">How do I Edit my Profile?</a>
+                    </li>
+                    <!-- <li>
+                        <a href="#">How do I search Post using Tags?</a>
+                    </li> -->
+                    <li>
+                        If there is any other query then you can contact us by <a id="highlight"
+                            href="/contactUs">click
+                            here.</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="searchBarContainer">
+            <form action="" class="search">
+                <div class="searchDiv">
+                    <input type="text" placeholder="Seach User, Text" name="searchBar">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </div>
+            </form>
+        </div>
+        <script>
+            //sidenav - ARROW v
+            const arrow = document.querySelector(".arrow");
+            arrow.addEventListener("click", (e) => {
+                const parent = e.target.parentElement.parentElement;
+                console.log(parent);
+                parent.classList.toggle("show-menu");
+                // arrow.style.transform="rotate(-180deg)";
+                arrow.classList.toggle("rotate");
+            });
+
+            //Hamburger
+            const navbar = document.querySelector(".navbar");
+            const sidebar = document.querySelector(".sideNav");
+            const sideNavSearch = document.querySelector(".sideNavSearch")
+            console.log(sideNavSearch);
+
+            navbar.addEventListener("click", () => {
+                navbar.classList.toggle("active");
+                sidebar.classList.toggle("close");
+                sideNavSearch.classList.toggle("d-none");
+            })
+
+            //Profile-arrow v
+            const profileArrow = document.querySelector(".profile-arrow");
+            const profileMenu = document.querySelector(".profile-container-option");
+            console.log(profileMenu);
+            profileArrow.addEventListener("click", () => {
+                profileMenu.classList.toggle("open");
+                profileArrow.classList.toggle("rotate");
+            })
+
+        </script>
+</body>
+
+</html>

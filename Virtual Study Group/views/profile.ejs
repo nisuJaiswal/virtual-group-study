@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - My Profile</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+
+<body>
+    <nav>
+        <div class="navbar">
+            <div class="line"></div>
+        </div>
+        <%- include('partials/profileButton') %>
+    </nav>
+    <div class="container">
+        <%- include('partials/sidenav') %>
+            <div class="content">
+
+                    <div class="mainContainer">
+                        <header>
+                            <div class="imgContainer">
+                                <img alt="User Picture" src=<%=user.profilepic %> >
+                            </div>
+                            <div class="nameContainer">
+                                <span>
+                                    <%= user.firstname %>&nbsp;<%= user.lastname%>
+                                </span>
+                                <span>Studdy Buddy : <span class="sbCount">
+                                        <%= user.studybuddyid.length; %>
+                                    </span></span>
+                            </div>
+                        </header>
+                        <div class="detailContainer">
+                            <div class="detailSubContainer">
+                                <div class="wrapper">
+                                    <label for="username">Username:</label>
+                                    <span>
+                                        <%= user.username %>
+                                    </span>
+                                </div>
+                                <a href="/user-profile-edit">
+                                    <i class="fas fa-edit pencil"></i>
+                                </a>
+                            </div>
+                            <div class="detailSubContainer">
+                                <label for="email">Email:</label>
+                                <span>
+                                    <%= user.usermail %>
+                                </span>
+                            </div>
+                            <div class="detailSubContainer">
+                                <label for="r-mail">Recovery Mail:</label>
+                                <span>
+                                    <%= user.recoverymail %>
+                                </span>
+                            </div>
+                            <div class="detailSubContainer">
+                                <label for="education">Education:</label>
+                                <span>
+                                    <%= user.education %>
+                                </span>
+                            </div>
+                            <div class="detailSubContainer">
+                                <label for="i-fileds">Interested Fields:</label>
+                                <div class="spanWrapper">
+                                        <span>
+                                            <%=uFields%>
+                                        </span>
+                                </div>
+                            </div>
+                        </div>
+                        <% if(uploadedPosts.length>0){%>
+
+                            <div class="uploadedPostConatiner">
+                                <header>
+                                    <h3>
+                                        Uploaded Post :
+                                    </h3>
+                                </header>
+                                <% uploadedPosts.forEach((post)=>{ %>
+        
+                                    <div class="post">
+                                        <header>
+                                            <div class="nameImgContainer">
+                                                <a href="/user-profile">
+                                                    <img src=<%=user.profilepic %>  alt="User Profile pic">
+                                                    <h5>
+                                                        <!-- User's Firstname and Lastname will be here -->
+                                                        <%= user.firstname %>&nbsp;<%= user.lastname%>
+                                                    </h5>
+                                                </a>
+                                            </div>
+                                            <div class="likeContainer">
+                                                <button>
+                                                    <a href="../../user/<%=post._id%>/editMaterial" class="editLink">
+                                                        <i class="fas fa-pen"></i>
+                                                    </a>
+                                                </button>
+                                                <button  onclick="checkLike(this.id)" id="<%=post._id %>">
+                                                    <i class="fa <%=post.likeClass%>" aria-hidden="true"></i>
+                                                </button>
+                                                <span>
+                                                    <!-- LIKE COUNTS WILL BE HERE -->
+                                                    <%= post.like %>
+                                                </span>
+                                            </div>
+                                        </header>
+                                        
+                                        <div class="postInfo">
+                                            <h4>Title: </h4>
+                                            <span>
+                                                <!-- POST'S TITLE WILL BE HERE -->
+                                                <%= post.title %>
+                                            </span>
+                                        </div>
+            
+                                        <div class="pdfContainer">
+                                            <iframe
+                                                src="<%=post.material%>"
+                                                width="640" height="480" allow="autoplay" controls></iframe>
+                                        </div>
+            
+                                        <div class="postInfo">
+                                            <h4>Description: </h4>
+                                            <span>
+                                                <!-- POST'S DESCRIPTION WILL BE HERE -->
+                                                <%= post.description %>
+                                            </span>
+                                        </div>
+            
+                                        <div class="postInfo">
+                                            <h4>Tag: </h4>
+                                            <div class="tagContainer">
+                                                <!-- POST'S Tags WILL BE HERE -->
+                                                <% post.tags.forEach((tag)=>{ %>
+                                                    <span>
+                                                        <%= tag %>
+                                                    </span>
+                                                <% }) %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% }) %>
+                                
+                            </div>
+                        <%}%>
+                    </div>
+                
+            </div>
+            <%- include('partials/search') %>
+            <script>
+                //sidenav - ARROW v
+                const arrow = document.querySelector(".arrow");
+                arrow.addEventListener("click", (e) => {
+                    const parent = e.target.parentElement.parentElement;
+                    console.log(parent);
+                    parent.classList.toggle("show-menu");
+                    // arrow.style.transform="rotate(-180deg)";
+                    arrow.classList.toggle("rotate");
+                });
+
+                //Hamburger
+                const navbar = document.querySelector(".navbar");
+                const sidebar = document.querySelector(".sideNav");
+                const sideNavSearch = document.querySelector(".sideNavSearch")
+                console.log(sideNavSearch);
+
+                navbar.addEventListener("click", () => {
+                    navbar.classList.toggle("active");
+                    sidebar.classList.toggle("close");
+                    sideNavSearch.classList.toggle("d-none");
+                })
+
+                //Profile-arrow v
+                const profileArrow = document.querySelector(".profile-arrow");
+                const profileMenu = document.querySelector(".profile-container-option");
+                console.log(profileMenu);
+                profileArrow.addEventListener("click", () => {
+                    profileMenu.classList.toggle("open");
+                    profileArrow.classList.toggle("rotate");
+                })
+
+                //Like
+                // function like(btnId) {
+                //     const likebtn = document.querySelector(`#${btnId}`);
+                //     likebtn.classList.toggle('fas');
+                //     console.log('like clicked');
+                // }
+
+                function checkLike(mId) {
+                        const btnLike = document.getElementById(mId);
+                        let likeCount =+ btnLike.nextSibling.nextSibling.innerText;
+                        // alert(likeCount)
+                        // alert(likeCount);
+                        if (btnLike.childNodes[1].classList == "fa fa-thumbs-o-up") {
+                        // alert(mId + "like");
+
+                            var requestOptions = {
+                                method: 'POST',
+                                redirect: 'follow'
+                            };
+
+                            fetch(`http://localhost:8080/post/${mId}/like`, requestOptions)
+                                .then(response => response.text())
+                                .then(result => console.log(result))
+                                .catch(error => console.log('error', error));
+                            btnLike.childNodes[1].classList.remove('fa-thumbs-o-up');
+                            btnLike.childNodes[1].classList.add('fa-thumbs-up');
+                            btnLike.nextSibling.nextSibling.innerText = likeCount + 1;
+                        }
+                        else if (btnLike.childNodes[1].classList == "fa fa-thumbs-up"){
+                        // alert(mId + "unlike");
+
+                            var requestOptions = {
+                                method: 'POST',
+                                redirect: 'follow'
+                            };
+
+                            fetch(`http://localhost:8080/post/${mId}/unlike`, requestOptions)
+                                .then(response => response.text())
+                                .then(result => console.log(result))
+                                .catch(error => console.log('error', error));
+
+                            btnLike.childNodes[1].classList.remove('fa-thumbs-up');
+                            btnLike.childNodes[1].classList.add('fa-thumbs-o-up');
+                            btnLike.nextSibling.nextSibling.innerText = likeCount - 1;
+                        }
+                    
+                }
+            </script>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - Admin Mail </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/adminUserInfo.css">
+    <link rel=" stylesheet" href="../../icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="navbar">
+            <div class="line"></div>
+        </div>
+        <img src="../../Images\LOGO.png" alt="Logo">
+        <a href="/logout">
+            <i class="fa fa-power-off" aria-hidden="true"></i>
+        </a>
+    </nav>
+    <div class="container">
+    <%- include('partials/sidenav') %> 
+        <div class="content">
+            <header>
+                <form action="/admin-user-search" method="get">
+                    <div class="searchBarContainer">
+                        <input type="text" placeholder="Search Users Here" name="q">
+                        <button type="submit">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </form>
+            </header>
+            <div class="mainContainer">
+                <header>
+                    <div class="imgContainer">
+                        <img src="<%=user.profilepic%>" alt="User Image">
+                    </div>
+                    <div class="nameContainer">
+                        <span><%=user.firstname%>&nbsp;<%=user.lastname%></span>
+                        <span>Studdy Buddy : <span class="sbCount"> <%=user.studybuddyid.length; %> </span></span>
+                    </div>
+                </header>
+            </div>
+            <div class="detailContainer">
+
+                <div class="detailSubContainer">
+                    <div class="wrapper">
+                        <label for="username">Username:</label>
+                        <input type="text" value="<%=user.username%>" name="username" readonly>
+                    </div>
+                    <!-- <a href="./editProfile.html">
+                            <i class="fas fa-edit pencil"></i>
+                        </a> -->
+                </div>
+                <div class="detailSubContainer">
+                    <label for="email">Email:</label>
+                    <input type="text" value="<%=user.usermail%>" name="email" readonly>
+                </div>
+                <div class="detailSubContainer">
+                    <label for="r-mail">Recovery Mail:</label>
+                    <input type="text" value="<%=user.recoverymail%>" name="r-mail" readonly>
+                </div>
+                <div class="detailSubContainer">
+                    <label for="education">Education:</label>
+                    <input type="text" value="<%=user.education%>" name="education" readonly>
+                </div>
+                <div class="detailSubContainer">
+                    <label for="i-fileds">Interested Fields:</label>
+                    <input type="text" value="<%=userField%>" name="i-fileds" readonly>
+                </div>
+            </div>
+        </div>
+        <script>
+            //sidenav click
+            const sideBar = document.querySelector('.sideNav');
+
+            //Hamburger
+            const nav = document.querySelector('.navbar');
+            nav.addEventListener('click', () => {
+                nav.classList.toggle('active');
+                sideBar.classList.toggle('sideRes');
+            })
+        </script>
+</body>
+
+</html>

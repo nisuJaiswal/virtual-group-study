@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+    integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="css\login.css">
+
+<body>
+    <nav>
+        <img src="Images\LOGO.png" alt="Logo">
+    </nav>
+    <!-- <div class="main"> -->
+        <div class="container">
+            <div class="imgContainer">
+                <img src="Images\u1.png" alt="Admin photo" />
+            </div>
+            <div class="frmContainer">
+                <form class="form" action="/login" method="post">
+                    <div class="innerContainer">
+                        <!-- <label for="username"><i class="fa fa-user" aria-hidden="true"></i></label>
+                        <input type="text" class="inputTag" placeholder="Username/Email"/> -->
+                        <div class="box">
+                            <label for="username"><i class="fa fa-user" aria-hidden="true"></i></label>
+                            <input type="text" name="userName" placeholder="Username/E-mail">
+                            <!-- <i class="fa fa-eye" aria-hidden="true"></i> -->
+                        </div>
+                        <div class="box">
+                            <label for="password"><i class="fa fa-lock" aria-hidden="true"></i></label>
+                            <input type="password" id="passField" name="pass" placeholder="Password"><br>
+                            <i class="fa fa-eye fa-eye-slash" id="showPass" aria-hidden="true"></i>
+                        </div>
+                        <!-- <input type="password" class="inputTag" placeholder="Password"/> -->
+                        <input class="btn" type="submit" value="Login" /> 
+                    </div>
+                </form>
+            </div>
+        </div>
+    <!-- </div> -->
+</body>
+<script>
+    const btn = document.getElementById('showPass');
+    const input = document.getElementById('passField');
+    console.log(btn.classList.length)
+    btn.addEventListener('click',()=>{
+        console.log("Cliked");
+        if(btn.classList.length == 2){
+            btn.classList.add('fa-eye-slash');
+            input.type = "password";
+        }
+        else{
+            btn.classList.remove('fa-eye-slash');
+            console.log("Inside else");
+            input.type = "text"; 
+        }
+    })
+</script>
+</html>

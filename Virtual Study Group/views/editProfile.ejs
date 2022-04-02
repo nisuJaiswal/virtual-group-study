@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - Edit Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/editProfile.css">
+    <link rel="stylesheet" href="icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+
+<body>
+    <nav>
+        <div class="navbar">
+            <div class="line"></div>
+        </div>
+
+        <%- include('partials/profileButton') %>
+        
+    </nav>
+    <div class="container">
+        
+        <%- include('partials/sidenav') %>
+
+        <div class="content">
+            <div class="mainContainer">
+                <div class="mainForm">
+                    <header>
+                        <h1>
+                            Edit Profile
+                        </h1>
+                    </header>
+                    <form action="/update-user-profile" method="post" enctype="multipart/form-data">
+                        <div class="imageContainer">
+                            <div class="imageSubContainer">
+
+                                <!-- GIVE IMAGE HERE -->
+
+                                <img src=<%= user.profilepic %> alt="User Image" class="profile-pic">
+                            </div>
+                            <i class="fa fa-camera upload-btn" aria-hidden="true"></i>
+                            <input type="file" accept="image/*" class="file-upload" name="editPhoto">
+                        </div>
+                        <div class="detailContainer">
+                            <div class="detailSubContainer">
+                                <label for="firstname">First Name:</label>
+                                <input type="text" value="<%=user.firstname %>" name="firstname">
+                            </div>
+                            <div class="detailSubContainer">
+                                <label for="lastname">Last Name:</label>
+                                <input type="text" value="<%=user.lastname %>" name="lastname">
+                            </div>
+                            <div class="detailSubContainer">
+                                <label for="username">Username:</label>
+                                <input type="text" value=<%=user.username %> name="username" disabled>
+                            </div>
+                            <div class="detailSubContainer">
+                                <label for="email">Email:</label>
+                                <input type="text" value=<%=user.usermail %> name="email" disabled>
+                            </div>
+                            <div class="detailSubContainer">
+                                <label for="r-mail">Recovery Mail:</label>
+                                <input type="text" value=<%=user.recoverymail %> name="r-mail" disabled>
+                            </div>
+                        </div>
+                        <div class="fields">
+                            <div class="education">
+                                <label for="education" id="widthLabel"> Education: </label>
+                                <select name="education">
+                                    <!-- TO BE CHANGED THIS FIELDS -->
+                                    <option value="Not Selected" <%= user.education == "Not Selected" ? "selected" : "" %>>--Select--</option>
+                                    <option value="Under Graduate" <%= user.education == "Under Graduate" ? "selected" : "" %>>Under Graduate</option>
+                                    <option value="Post Graduate" <%= user.education == "Post Graduate" ? "selected" : "" %>>Post Graduate</option>
+                                    <option value="Graduate" <%= user.education == "Graduate" ? "selected" : "" %>>Graduate</option>
+                                    <option value="High School" <%= user.education == "High School" ? "selected" : "" %>>High School</option>
+                                </select>
+                            </div>
+                            <div class="interestedFields">
+                                <label for="Interested Fields" id="widthLabel"> Intrested Fields: </label>
+                                <div class="checkboxContainer">
+                                    <div class="divRow">
+                                        <div class="checkLabel">
+                                            <input type="checkbox" name="interestedFields[]" value="Engineering" 
+                                            <% if(user.intrestedfields.includes("Engineering")){ %>
+                                                checked
+                                            <% } %> >
+                                            <label for="interestedFields[]">Engineering</label>
+                                        </div>
+                                        <div class="checkLabel">
+                                            <input type="checkbox" name="interestedFields[]" value="Architechture"
+                                            <% if(user.intrestedfields.includes("Architechture")){ %>
+                                                checked
+                                            <% } %> >
+                                            <label for="interestedFields[]">Architechture</label>
+                                        </div>
+                                        <div class="checkLabel">
+                                            <input type="checkbox" name="interestedFields[]" value="Enviromental Studies"
+                                            <% if(user.intrestedfields.includes("Enviromental Studies")){ %>
+                                                checked
+                                            <% } %> >
+                                            <label for="interestedFields[]">Enviromental Studies</label>
+                                        </div>
+                                    </div>
+                                    <div class="divRow">
+                                        <div class="checkLabel">
+                                            <input type="checkbox" name="interestedFields[]" value="Law"
+                                            <% if(user.intrestedfields.includes("Law")){ %>
+                                                checked
+                                            <% } %>>
+                                            <label for="interestedFields[]">Law</label>
+                                        </div>
+                                        <div class="checkLabel">
+                                            <input type="checkbox" name="interestedFields[]" value="Chemistry"
+                                            <% if(user.intrestedfields.includes("Chemistry")){ %>
+                                                checked
+                                            <% } %> >
+                                            <label for="interestedFields[]">Chemistry</label>
+                                        </div>
+                                        <div class="checkLabel">
+                                            <input type="checkbox" name="interestedFields[]" value="Social Science"
+                                            <% if(user.intrestedfields.includes("Social Science")){ %>
+                                                checked
+                                            <% } %> >
+                                            <label for="interestedFields[]">Social Science</label>
+                                        </div>
+                                    </div>
+                                    <div class="divRow">
+                                        <div class="checkLabel">
+                                            <input type="checkbox" name="interestedFields[]" value="Computer Science"
+                                            <% if(user.intrestedfields.includes("Computer Science")){ %>
+                                                checked
+                                            <% } %> >
+                                            <label for="interestedFields[]">Computer Science</label>
+                                        </div>
+                                        <div class="checkLabel">
+                                            <input type="checkbox" name="interestedFields[]" value="Arts and Cultures"
+                                            <% if(user.intrestedfields.includes("Arts and Cultures")){ %>
+                                                checked
+                                            <% } %> >
+                                            <label for="interestedFields[]">Arts and Cultures</label>
+                                        </div>
+                                        <div class="checkLabel">
+                                            <input type="checkbox" name="interestedFields[]" value="Science"
+                                            <% if(user.intrestedfields.includes("Science")){ %>
+                                                checked
+                                            <% } %> >
+                                            <label for="interestedFields[]">Science</label>
+                                        </div>
+                                    </div>
+                                    <div class="divRow">
+                                        <div class="checkLabel">
+                                            <input type="checkbox" name="interestedFields[]" value="Design"
+                                            <% if(user.intrestedfields.includes("Design")){ %>
+                                                checked
+                                            <% } %> >
+                                            <label for="interestedFields[]">Design</label>
+                                        </div>
+                                        <div class="checkLabel">
+                                            <input type="checkbox" name="interestedFields[]" value="Physics"
+                                            <% if(user.intrestedfields.includes("Physics")){ %>
+                                                checked
+                                            <% } %> >
+                                            <label for="interestedFields[]">Physics</label>
+                                        </div>
+                                        <div class="checkLabel">
+                                            <input type="checkbox" name="interestedFields[]" value="Pharmacy"
+                                            <% if(user.intrestedfields.includes("Pharmacy")){ %>
+                                                checked
+                                            <% } %> >
+                                            <label for="interestedFields[]">Pharmacy</label>
+                                        </div>
+                                    </div>
+                                    <div class="divRow">
+                                        <div class="checkLabel">
+                                            <input type="checkbox" name="interestedFields[]" value="Biology"
+                                            <% if(user.intrestedfields.includes("Biology")){ %>
+                                                checked
+                                            <% } %> >
+                                            <label for="interestedFields[]">Biology</label>
+                                        </div>
+                                        <div class="checkLabel">
+                                            <input type="checkbox" name="interestedFields[]" value="Mathematics"
+                                            <% if(user.intrestedfields.includes("Mathematics")){ %>
+                                                checked
+                                            <% } %> >
+                                            <label for="interestedFields[]">Mathematics</label>
+                                        </div>
+                                        <div class="checkLabel">
+                                            <input type="checkbox" name="interestedFields[]" value="Astronomy"
+                                            <% if(user.intrestedfields.includes("Astronomy")){ %>
+                                                checked
+                                            <% } %> >
+                                            <label for="interestedFields[]">Astronomy</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btnSubmit">
+                            <input type="submit" value="Save">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <%- include('partials/search') %>
+        
+        <script>
+            //sidenav - ARROW v
+            const arrow = document.querySelector(".arrow");
+            arrow.addEventListener("click", (e) => {
+                const parent = e.target.parentElement.parentElement;
+                console.log(parent);
+                parent.classList.toggle("show-menu");
+                // arrow.style.transform="rotate(-180deg)";
+                arrow.classList.toggle("rotate");
+            });
+
+            //Hamburger
+            const navbar = document.querySelector(".navbar");
+            const sidebar = document.querySelector(".sideNav");
+            const sideNavSearch = document.querySelector(".sideNavSearch")
+            console.log(sideNavSearch);
+
+            navbar.addEventListener("click", () => {
+                navbar.classList.toggle("active");
+                sidebar.classList.toggle("close");
+                sideNavSearch.classList.toggle("d-none");
+            })
+
+            //Profile-arrow v
+            const profileArrow = document.querySelector(".profile-arrow");
+            const profileMenu = document.querySelector(".profile-container-option");
+            console.log(profileMenu);
+            profileArrow.addEventListener("click", () => {
+                profileMenu.classList.toggle("open");
+                profileArrow.classList.toggle("rotate");
+            })
+
+            const profilePic = document.querySelector('.profile-pic');
+            const fileUpload = document.querySelector('.file-upload');
+            const uploadBtn = document.querySelector('.upload-btn');
+            // console.log(uploadBtn);
+
+            var readUrl = function (input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        profilePic.setAttribute('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            fileUpload.addEventListener('change', function () {
+                readUrl(this);
+            })
+            uploadBtn.addEventListener('click', function () {
+                fileUpload.click();
+            })
+        </script>
+</body>
+
+</html>

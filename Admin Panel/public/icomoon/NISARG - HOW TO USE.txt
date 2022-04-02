@@ -1,0 +1,4 @@
+copy all from css to project css file:-
+
+add link to the css file in the html:-
+<link rel="stylesheet" href="icomoon\style.css">

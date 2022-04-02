@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="Images/FAV-ICON.png" type="image/x-icon">
+    <title>Login-Recover Account</title>
+</head>
+<script src="https://kit.fontawesome.com/38f0fc9536.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/recoveryAccountGetInfo.css">
+
+<body>
+    <nav>
+        <img src="images/logoblack.png" alt="#">
+    </nav>
+    <div class="container">
+        <div class="subContainer">
+            <form action="/login" method="get">
+                <div class="heading">
+                    <h1>RECOVERY ACCOUNT</h1>
+                    <h3>You can see all your Account</h3>
+                </div>
+                <div class="inputContainer">
+                    <ol>
+                        <% if(typeof userData !="undefined" ){ %>
+                            <% userData.forEach((user)=>{ %>
+                                <li>
+                                    <span class="olHeading">
+                                        Email: <%= user.usermail %>
+                                    </span>
+                                    <span>
+                                        Username: <%= user.username %>
+                                    </span>
+                                </li>
+                                <% }) %>
+                                    <% } %>
+                    </ol>
+                    <% if(typeof notFound !="undefined" ){ %>
+                        <center>
+                            <h2>Sorry There is nothing which is linked to that recovery account :(</h2>
+                        </center><br><br>
+                        <% } %>
+                </div>
+                <div class="btn">
+                    <a href="/login"> <input type="submit" name="Done"> </a>
+                </div>
+        </div>
+        </form>
+    </div>
+    </div>
+</body>
+
+</html>

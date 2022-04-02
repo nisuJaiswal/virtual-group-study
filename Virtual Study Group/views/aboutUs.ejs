@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - About Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/aboutUs.css">
+    <link rel="stylesheet" href="icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+
+<body>
+    <nav>
+        <div class="navbar">
+            <div class="line"></div>
+        </div>
+
+        <%- include('partials/profileButton') %>
+    </nav>
+    <div class="container">
+        <%- include('partials/sidenav') %>
+        <div class="content">
+            <div class="mainContainer">
+                <header>
+                    <h2>
+                        About Us
+                    </h2>
+                </header>
+                <ul>
+                    <li>
+                        In Current Covid-19 Pandemic Student can Easily Study remotely without
+                        Going to School or Any Tuition. With The help of Our Website Student Can
+                        Easily Connect to World Wide People and Ask Doubts or Anything related to
+                        Study at Their own Home.
+                    </li>
+                    <li>
+                        In Our Website Student Can Easily Share There Notes or Any Study Material.
+                    </li>
+                    <li>
+                        Student Can also Find Study Partner With the help of our website and both
+                        Study together.
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <%- include('partials/search') %>
+        <script>
+            //sidenav - ARROW v
+            const arrow = document.querySelector(".arrow");
+            arrow.addEventListener("click", (e) => {
+                const parent = e.target.parentElement.parentElement;
+                console.log(parent);
+                parent.classList.toggle("show-menu");
+                // arrow.style.transform="rotate(-180deg)";
+                arrow.classList.toggle("rotate");
+            });
+
+            //Hamburger
+            const navbar = document.querySelector(".navbar");
+            const sidebar = document.querySelector(".sideNav");
+
+            navbar.addEventListener("click", () => {
+                navbar.classList.toggle("active");
+                sidebar.classList.toggle("close");
+            })
+
+            //Profile-arrow v
+            const profileArrow = document.querySelector(".profile-arrow");
+            const profileMenu = document.querySelector(".profile-container-option");
+            console.log(profileMenu);
+            profileArrow.addEventListener("click", () => {
+                profileMenu.classList.toggle("open");
+                profileArrow.classList.toggle("rotate");
+            })
+
+        </script>
+</body>
+
+</html>

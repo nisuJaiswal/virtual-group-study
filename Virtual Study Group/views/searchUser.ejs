@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - Search</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/search.css">
+    <link rel="stylesheet" href="icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+
+<body>
+    <nav>
+        <div class="navbar">
+            <div class="line"></div>
+        </div>
+
+        <%- include('partials/profileButton') %>
+
+    </nav>
+    <div class="container">
+        <%- include('partials/sidenav') %>
+
+            <div class="content">
+                <div class="mainContainer">
+                    <header>
+                        Search Results for '<span>
+                            <%=search%>
+                        </span>'
+                    </header>
+                    <div class="searchResContainer">
+                        <!-- SINGLE CONTAINER FOR A SEARCH -->
+                        <% userInfo.forEach((info)=>{ %>
+                            <div class="searchResult">
+                                <div class="nameImgContainer">
+                                    <img src="<%=info.profilepic%>" alt="User Image">
+                                    <a href="/user/<%=info.userid%>/profile">
+                                        <%=info.firstname%>&nbsp;<%=info.lastname%>
+                                    </a>
+                                </div>
+                                <!-- <a href="#"> -->
+                                    <% if(info.frd == "fa-user-plus"){%>
+                                        <i class="fas <%=info.frd%>" id="<%=info.userid%>"
+                                            onclick="handleAccepted(this.id)"></i>
+                                    <%} else {%>
+                                        <i class="fas <%=info.frd%>"></i>
+                                    <% } %>
+                                <!-- </a> -->
+                            </div>
+                            <% }) %>
+                                <!-- END OF CONTAINER -->
+
+                                <!-- ANOTHER CONTAINER FOR A SEARCH -->
+                                <!-- <div class="searchResult">
+                        <div class="nameImgContainer">
+                            <img src="./Images/KANSARA.jpeg" alt="pic">
+                            <a href="#">Nisarg Kansara</a>
+                        </div>
+                        <a href="#">
+                            <i class="fas fa-user-plus sentBtn" id="thisIsUniqueId"
+                                onclick="handleAccepted(this.id)"></i>
+                        </a>
+                    </div> -->
+                                <!-- END OF CONTAINER -->
+                    </div>
+                </div>
+            </div>
+            <%- include('partials/search') %>
+
+                <script>
+                    //sidenav - ARROW v
+                    const arrow = document.querySelector(".arrow");
+                    arrow.addEventListener("click", (e) => {
+                        const parent = e.target.parentElement.parentElement;
+                        console.log(parent);
+                        parent.classList.toggle("show-menu");
+                        // arrow.style.transform="rotate(-180deg)";
+                        arrow.classList.toggle("rotate");
+                    });
+
+                    //Hamburger
+                    const navbar = document.querySelector(".navbar");
+                    const sidebar = document.querySelector(".sideNav");
+                    const sideNavSearch = document.querySelector(".sideNavSearch")
+                    console.log(sideNavSearch);
+
+                    navbar.addEventListener("click", () => {
+                        navbar.classList.toggle("active");
+                        sidebar.classList.toggle("close");
+                        sideNavSearch.classList.toggle("d-none");
+                    })
+
+                    //Profile-arrow v
+                    const profileArrow = document.querySelector(".profile-arrow");
+                    const profileMenu = document.querySelector(".profile-container-option");
+                    console.log(profileMenu);
+                    profileArrow.addEventListener("click", () => {
+                        profileMenu.classList.toggle("open");
+                        profileArrow.classList.toggle("rotate");
+                    })
+
+                    function handleAccepted(id) {
+                        var requestOptions = {
+                            method: 'POST',
+                            redirect: 'follow'
+                        };
+
+                        fetch(`http://localhost:8080/studyBuddy/${id}/request`, requestOptions)
+                            .then(response => response.text())
+                            .then(result => console.log(result))
+                            .catch(error => console.log('error', error));
+
+                        const accepted = document.getElementById(id);
+                        if (accepted.classList[1] == "fa-user-plus") {
+                            accepted.classList.remove("fa-user-plus");
+                            accepted.classList.add("fa-check-circle");
+                        }
+                    }
+
+                </script>
+</body>
+
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - Mail Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/adminInnerMail.css">
+    <link rel="stylesheet" href="../../icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="navbar">
+            <div class="line"></div>
+        </div>
+        <img src="../../Images\LOGO.png" alt="#">
+        <a href="/logout">
+            <i class="fa fa-power-off" aria-hidden="true"></i>
+        </a>
+    </nav>
+    <div class="container">
+        <%- include('partials/sidenav') %>
+            <div class="content">
+                <div class="mainContainer">
+                    <header>
+                        <img src="<%=user.profilepic%>" alt="User Image">
+                        <a href="/admin-user/<%=user._id%>/detail">
+                            <%=user.firstname%>&nbsp;<%=user.lastname%>
+                        </a>
+                    </header>
+
+                    <% feedback.forEach((info)=>{ %>
+
+                        <div class="feedback">
+                            <!-- Rating, Category, Details -->
+                            <div class="detailContainer">
+                                <span class="title">
+                                    Category:
+                                </span>
+                                <span class="detail">
+                                    <%=info.category%>
+                                </span>
+                            </div>
+    
+                            <div class="detailContainer">
+                                <span class="title">
+                                    Description:
+                                </span>
+                                <span class="detail">
+                                    <%=info.content%>
+                                </span>
+                            </div>
+    
+                            <div class="detailContainer">
+                                <span class="title">
+                                    Rating:
+                                </span>
+                                <span class="detail">
+                                    <%=info.rating%>
+                                </span>
+                            </div>
+    
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+            <script>
+                //Card Counter
+                const counters = document.querySelectorAll('.count');
+
+                counters.forEach((item) => {
+                    item.innerHTML = 0;
+                    const updateCounter = () => {
+                        const target = +item.getAttribute('data-target');
+                        const start = + item.innerHTML;
+                        if (start < target) {
+                            item.innerHTML = `${start + 1}`;
+                            setTimeout(updateCounter, 80);
+                        }
+                    }
+                    updateCounter();
+                })
+
+                //sidenav click
+                const sideBar = document.querySelector('.sideNav');
+
+                //Hamburger
+                const nav = document.querySelector('.navbar');
+                nav.addEventListener('click', () => {
+                    nav.classList.toggle('active');
+                    sideBar.classList.toggle('sideRes');
+                })
+
+                //Chart
+                const header = document.querySelectorAll('.classH3');
+                header.forEach((d) => {
+                    console.log(d.id);
+
+                })
+
+                const labels = [
+                    'January',
+                    'February',
+                    'March',
+                    'April',
+                    'May',
+                    'June',
+                    'July',
+                    'August',
+                    'September',
+                    'OCtober',
+                    'Novemeber',
+                    'December',
+                ];
+
+                const data = {
+                    labels: labels,
+                    datasets: [{
+                        label: 'New Joined Users',
+                        borderColor: 'rgb(0, 0, 0)',
+
+                        // DATA PROVIDED HERE
+                        data: [0, 10, 5, 2, 20, 30, 40, 10, 5, 2, 20, 30, 40, 60],
+
+                        backgroundColor: '#1c6392',
+                        // color: 'rgb(255,0,0)'
+                    }]
+
+                };
+
+                const config = {
+                    type: 'bar',
+                    data: data,
+                    options: {
+                        plugins: {
+                            legend: {
+                                // display: false,
+                                position: 'bottom',
+                                align: 'center'
+                            }
+                        }
+
+                    }
+
+                };
+
+                const myChart = new Chart(document.getElementById('myChart'), config);
+            </script>
+</body>
+
+</html>

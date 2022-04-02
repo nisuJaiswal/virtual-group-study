@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - Chat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+
+<body>
+    <nav>
+        <div class="navbar">
+            <div class="line"></div>
+        </div>
+
+        <%- include('partials/profileButton') %>
+    </nav>
+    <div class="container">
+        <%- include('partials/sidenav') %>
+            <div class="content">
+                <div class="mainContainer">
+                    <div class="userContainer">
+                        <div class="userContainerWrapper">
+                            <form action="#">
+                                <div class="userSearch">
+                                    <input type="text" placeholder="Search User" id="userSearch">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </div>
+                            </form>
+
+                            <div class="userWrapper">
+
+                                <!-- SINGLE CONTAINER FOR SINGLE USER -->
+
+                                <% frdDetail.forEach((info)=>{ %>
+                                    <div class="singleUser" id="<%=info._id%>">
+                                        <img src="<%=info.profilepic%>" alt="User Image">
+                                        <span onclick="openUserChat(parentElement.id)" class="userName">
+                                            <%=info.firstname%>&nbsp;<%=info.lastname%>
+                                        </span>
+                                    </div>
+                                    <% }) %>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="chatContainer d-none" id="selectedChat">
+                        <div class="chatContainerWrapper">
+                            <div class="chatContainerTop">
+                                <header id="headerOfChat">
+
+                                </header>
+                                <div class="mainChat" id="messages">
+
+                                </div>
+                            </div>
+                            <div class="chatContainerBottom">
+                                <div class="messageContainer">
+                                    <!-- <i class="fa fa-paperclip clip" aria-hidden="true"></i> -->
+                                    <input type="text" placeholder="Write Something" id="chatMsg">
+                                    <button class="btnSend" onclick="sendMsgToUser()">
+                                        <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chatContainer middle" id="noSelectedChat">
+                        <img src="images/noChatSelectedImage.jpg" alt="No Image">
+                        <span>
+                            Click on Person to Start Conversation
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <%- include('partials/search') %>
+                <script src="/socket.io/socket.io.js"></script>
+                <script>
+                    const userid = '<%- userID %>';
+                    let receiverUserId;
+                    var socket = io();
+
+                    const noChatSelected = document.getElementById('noSelectedChat')
+                    const selectedChat = document.getElementById('selectedChat');
+
+                    socket.emit("setSenderUser", { idOfSender: userid });
+
+                    function openUserChat(id) {
+                        document.getElementById("messages").innerHTML = "";
+                        const header = document.getElementById("headerOfChat");
+
+                        const selectedUser = document.getElementById(id).children;
+
+                        const userImage = selectedUser[0].src;
+                        const userName = selectedUser[1].innerText;
+
+                        header.innerHTML = `
+                            <img src="${userImage}" alt="img">
+                            <span>${userName}</span>
+                        `;
+                        receiverUserId = id;
+                        socket.emit("setReceiverUser", { receiverId: id });
+
+                        noChatSelected.classList.add('d-none')
+                        selectedChat.classList.remove('d-none')
+
+                    }
+
+                    function sendMsgToUser() {
+                        const chat = document.getElementById("chatMsg");
+
+                        // alert(chat.value)
+                        document.getElementById("messages").innerHTML += `<div class="singleChat own">
+                                <div class="message">
+                                    ${chat.value}
+                                </div>
+                            </div>`;
+                        socket.emit("sendMsgToUser", { msg: chat.value });
+
+                        chat.value = "";
+
+                    }
+
+                    socket.on("showMsg", (data) => {
+
+                        if (data.sender == receiverUserId && data.receiver == userid) {
+                            document.getElementById("messages").innerHTML += `<div class="singleChat">
+                                <div class="message">
+                                    ${data.msg}
+                                </div>
+                            </div>`;
+                        }
+                        // alert("run")
+                    })
+
+                    socket.on("showRecentChatToUser" + userid, (info) => {
+                        if ((info.contentOfChat.user_1 == userid | info.contentOfChat.user_1 == receiverUserId) && (info.contentOfChat.user_2 == userid | info.contentOfChat.user_2 == receiverUserId)) {
+                            info.contentOfChat.chat.forEach(data => {
+                                if (userid == data.sender) {
+                                    document.getElementById("messages").innerHTML += `<div class="singleChat own">
+                                        <div class="message">
+                                            ${data.content}
+                                            </div>
+                                        </div>`;
+                                }
+                                else {
+                                    document.getElementById("messages").innerHTML += `<div class="singleChat">
+                                        <div class="message">
+                                            ${data.content}
+                                            </div>
+                                        </div>`;
+                                }
+                            });
+                        }
+                    })
+
+
+                    //sidenav - ARROW v
+                    const arrow = document.querySelector(".arrow");
+                    arrow.addEventListener("click", (e) => {
+                        const parent = e.target.parentElement.parentElement;
+                        console.log(parent);
+                        parent.classList.toggle("show-menu");
+                        // arrow.style.transform="rotate(-180deg)";
+                        arrow.classList.toggle("rotate");
+                    });
+
+                    //Hamburger
+                    const navbar = document.querySelector(".navbar");
+                    const sidebar = document.querySelector(".sideNav");
+                    const sideNavSearch = document.querySelector(".sideNavSearch")
+                    console.log(sideNavSearch);
+
+                    navbar.addEventListener("click", () => {
+                        navbar.classList.toggle("active");
+                        sidebar.classList.toggle("close");
+                        sideNavSearch.classList.toggle("d-none");
+                    })
+
+                    //Profile-arrow v
+                    const profileArrow = document.querySelector(".profile-arrow");
+                    const profileMenu = document.querySelector(".profile-container-option");
+                    console.log(profileMenu);
+                    profileArrow.addEventListener("click", () => {
+                        profileMenu.classList.toggle("open");
+                        profileArrow.classList.toggle("rotate");
+                    })
+
+                    //CHAT
+
+                    const userNames = document.querySelectorAll('.userName')
+                    const userSearchbar = document.getElementById('userSearch');
+                    console.log(userSearchbar);
+
+                    userSearchbar.addEventListener('input', () => {
+                        userNames.forEach((userName) => {
+                            console.log(userSearchbar.value)
+                            if (userName.innerText.includes(userSearchbar.value)) {
+                                if (userName.parentElement.classList[1]) {
+                                    userName.parentElement.classList.remove('d-none')
+                                }
+                            }
+                            else {
+                                userName.parentElement.classList.add('d-none')
+                            }
+                        })
+                    })
+                </script>
+</body>
+
+</html>

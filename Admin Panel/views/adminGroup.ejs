@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - Groups </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/adminGroup.css">
+    <link rel="stylesheet" href="icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <%- include('partials/navbar') %>
+    <div class="container">
+    <%- include('partials/sidenav') %> 
+        <div class="content">
+            <header>
+                <form action="/admin-group-search" method="get">
+
+                    <div class="searchBarContainer">
+                        <input type="text" placeholder="Search Groups Here" name="q">
+                        <button type="submit">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </form>
+            </header>
+            <div class="groupContainer">
+                <% group.forEach((info)=>{ %>
+                    <div class="group">
+                        <img src="<%=info.grouppic%>" alt="Image">
+                        <a href="/admin-group/<%=info._id%>/detail">
+                            <span><%=info.title%></span>
+                        </a>
+                        <div class="memberContainer">
+                            <span><b><%=info.memberid.length%></b> Members</span>
+                        </div>
+                    </div>
+                <% }) %>
+
+            </div>
+        </div>
+        <script>
+            //sidenav click
+            const sideBar = document.querySelector('.sideNav');
+
+            //Hamburger
+            const nav = document.querySelector('.navbar');
+            nav.addEventListener('click', () => {
+                nav.classList.toggle('active');
+                sideBar.classList.toggle('sideRes');
+            })
+        </script>
+</body>
+
+</html>

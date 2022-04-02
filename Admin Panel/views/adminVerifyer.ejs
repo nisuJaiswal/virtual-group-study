@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - Admin User </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/adminVerifyer.css">
+    <link rel="stylesheet" href="icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <%- include('partials/navbar') %>
+        <div class="container">
+            <%- include('partials/sidenav') %>
+                <div class="content">
+                    <% if(verifyInfo.length>0){ %>
+                        <div class="mainContainer">
+                                <div class="noAnyPost d-none">
+                                    No Any Post to Verify
+                                </div>
+                            <% verifyInfo.forEach((info)=>{ %>
+    
+                                <div class="post" id="<%=info.matId%>">
+                                    <header>
+                                        <div class="nameImgContainer">
+                                            <a href="/admin-user/<%=info.userId%>/detail">
+                                                <img src="<%=info.profilepic%>" alt="User Profile pic">
+                                                <h5>
+                                                    <!-- User's Firstname and Lastname will be here -->
+                                                    <%=info.fname%>&nbsp;<%=info.lname%>
+                                                </h5>
+                                            </a>
+                                        </div>
+                                        <div class="acceptRejectContainer">
+                                            <button class="accept" onclick="handleOnClickAccept(this.parentElement.parentElement.parentElement.id)">
+                                                <i class="fas fa-check"></i>
+                                                <span>
+                                                    Accept
+                                                </span>
+                                            </button>
+                                            <button class="reject" onclick="handleOnClickReject(this.parentElement.parentElement.parentElement.id)">
+                                                <i class="fas fa-times"></i>
+                                                <span>
+                                                    Reject
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </header>
+    
+                                    <div class=" postInfo">
+                                        <h4>Title: </h4>
+                                        <span>
+                                            <!-- POST'S TITLE WILL BE HERE -->
+                                            <%=info.title%>
+                                        </span>
+                                    </div>
+    
+                                    <div class="pdfContainer">
+                                        <iframe src="<%=info.material%>" width="640" height="480" allow="autoplay"
+                                            controls></iframe>
+                                    </div>
+    
+                                    <div class="postInfo">
+                                        <h4>Description: </h4>
+                                        <span>
+                                            <!-- POST'S DESCRIPTION WILL BE HERE -->
+                                            <%=info.desc%>
+                                        </span>
+                                    </div>
+    
+                                    <div class="postInfo">
+                                        <h4>Tag: </h4>
+                                        <div class="tagContainer">
+                                            <!-- POST'S Tags WILL BE HERE -->
+                                            <% info.tags.forEach((tag)=>{%>
+                                                <span>
+                                                    <%=tag%>
+                                                </span>
+                                                <%})%>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% })%>
+    
+                        </div>
+                    <% } else { %>
+                        <div class="mainContainer">
+                            <div class="noAnyPost">
+                                No Any Post to Verify
+                            </div>
+                        </div>
+                    <% } %>
+                    
+                </div>
+                <script>
+                    //sidenav click
+                    // const sideBar = document.querySelector('.sideNav');
+
+                    //Hamburger
+                    // const nav = document.querySelector('.navbar');
+                    // nav.addEventListener('click', () => {
+                    //     nav.classList.toggle('active');
+                    //     sideBar.classList.toggle('sideRes');
+                    // })
+
+                    //Accept Reject buttons
+                    const accept = document.querySelector('.accept')
+                    const reject = document.querySelector('.reject')
+                    console.log(accept);
+                    console.log(reject);
+
+
+                    function handleOnClickAccept(id) {
+                        var requestOptions = {
+                            method: 'POST',
+                            redirect: 'follow'
+                        };
+
+                        fetch(`http://localhost:8000/admin-verify-accept/${id}/material-approved`, requestOptions)
+                            .then(response => response.text())
+                            .then(result => console.log(result))
+                            .catch(error => console.log('error', error));
+                        console.log("CLiked Accept");
+                        document.getElementById(id).remove();
+                        alert("You have Accepted Post");
+                        chechForNull();
+                    }
+
+                    function handleOnClickReject(id) {
+                        var requestOptions = {
+                            method: 'POST',
+                            redirect: 'follow'
+                        };
+
+                        fetch(`http://localhost:8000/admin-verify-reject/${id}/material-rejected`, requestOptions)
+                            .then(response => response.text())
+                            .then(result => console.log(result))
+                            .catch(error => console.log('error', error));
+                        console.log("CLiked Reject");
+                        document.getElementById(id).remove();
+                        alert("You have Rejected Post");
+                        chechForNull();
+
+                    }
+                    function chechForNull() {
+                        const mainContainer = document.querySelector('.mainContainer');
+                        const noAnyPost = document.querySelector('.noAnyPost');
+                        if (!noAnyPost.nextElementSibling) {
+                            noAnyPost.classList.remove('d-none');
+                        }
+                    }
+                </script>
+</body>
+
+</html>

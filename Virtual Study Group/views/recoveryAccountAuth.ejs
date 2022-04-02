@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/FAV-ICON.png" type="image/x-icon">
+    <title>Login-Recover Account</title>
+</head>
+<script src="https://kit.fontawesome.com/38f0fc9536.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css\recoveryAccountAuth.css">
+
+<body>
+    <nav>
+        <img src="images\logoblack.png" alt="#">
+    </nav>
+    <div class="container">
+        <div class="subContainer">
+            <form action="/recoveryAccAuth" method="POST">
+                <div class="heading">
+                    <h1>RECOVERY ACCOUNT</h1>
+                    <p id="p1">Enter Your Recovery E-Mail and </p>
+                    <p id="p2"> And We Will Send You Varification Code</p>
+                </div>
+                <div class="inputContainer">
+                    <div class="box">
+                        <label for="userMail"><i class="fa fa-user" aria-hidden="true"></i></label>
+                        <input type="email" name="emailID" placeholder="Enter Recovery Mail" required
+                            value=<%=typeof userMail!="undefined" ? userMail : "" %> >
+                    </div>
+                    <div class="code-btn">
+                        <input type="submit" name="getOTP" value="getOTP" <% if(typeof getOtpEnable=="undefined" ){ %>
+                        disabled
+                        <%} %>>
+                    </div>
+                </div>
+                <div class="inputContainer lastChild">
+                    <div class="box">
+                        <label for="readOTP"><i class="fa fa-lock" aria-hidden="true"></i></label>
+                        <input type="password" name="readOTP" placeholder="Enter Verification Code" maxlength="4" <%
+                            if(typeof passEnable=="undefined" ){ %>
+                        disabled
+                        <%} %>><br>
+                    </div>
+                </div>
+                <center>
+                    <p class="error" style=<%=typeof visible !="undefined" ? visible : "visibility:hidden;" %>>OTP Not
+                        Match</p>
+                </center>
+                <div class="btn">
+                    <input type="submit" name="submitOTP" value="validate" <% if(typeof submitEnable=="undefined" ){ %>
+                    disabled
+                    <%} %>>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

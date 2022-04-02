@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - Notification</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="CSS/notification.css">
+    <link rel="stylesheet" href="icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+</head>
+
+<body>
+
+    <nav>
+        <div class="navbar">
+            <div class="line"></div>
+        </div>
+
+        <%- include('partials/profileButton') %>
+    </nav>
+    <div class="container">
+        <%- include('partials/sidenav') %>
+            <div class="content">
+                <div class="mainContainer">
+                    <div class="notificationContainer">
+                        <header id="friendReqHeader">
+                            <h3>
+                                You Have Friend Requests From:
+                            </h3>
+                        </header>
+                        <% if(userInfo.length==0){ %>
+                            <div class="noRequests">
+                                You don't have any requests
+                            </div>
+                        <% } %>
+                        <!-- A CONTAINER FOR A SINGLE REQUEST -->
+                        <% userInfo.forEach((user)=>{ %>
+                            <div class="requestContainer" id="<%=user._id%>">
+                                <!-- PROVIDE UNIQUE ID HERE YAHA UPAR VAALE DIV ME -->
+                                <img src="<%=user.profilepic%>" alt="User Image">
+                                <!-- <a href="#"> -->
+                                    <div class="nameContainer">
+                                        <%=user.firstname%>&nbsp;<%=user.lastname%>
+                                    </div>
+                                <!-- </a> -->
+                                <div class="iconContainer">
+                                    <i class="fa fa-check" aria-hidden="true"
+                                        onclick="handleOnClickAcceptFrdRequest( this.parentElement.parentElement.id )"></i>
+                                    <i class=" fa fa-times" aria-hidden="true"
+                                        onclick="handleOnClickRejectFrdRequest( this.parentElement.parentElement.id )"></i>
+                                </div>
+                            </div>
+                        <% }) %>
+
+                    </div>
+                </div>
+                <% if(grpReqInfo.length >0) {%> 
+                <div class="mainContainer">
+                    <div class="notificationContainer">
+                        <header id="wantToJoinId">
+                            <h3>
+                                Wants To Join Your Group:
+                            </h3>
+                        </header>
+
+                        <!-- A CONTAINER FOR A SINGLE REQUEST -->
+
+                        <% grpReqInfo.forEach((info)=>{ %>
+
+                            <div class="requestContainer" id="<%=info.userid%>">
+                                <!-- PROVIDE UNIQUE ID HERE YAHA UPAR VAALE DIV ME -->
+                                <img src="<%=info.profilepic%>" alt="User Image">
+                                <div class="nameContainer">
+                                    <%=info.firstname%>&nbsp;<%=info.lastname%> (Requested to Join <b>
+                                                <%=info.group%>
+                                            </b>)
+                                </div>
+                                <div class="iconContainer">
+                                    <i class="fa fa-check" aria-hidden="true" id="<%=info.grpid%>"
+                                        onclick="handleOnClickAccept( this.parentElement.parentElement.id ,this.id)"></i>
+                                    <i class="fa fa-times" aria-hidden="true" id="<%=info.grpid%>"
+                                        onclick="handleOnClickReject(this.parentElement.parentElement.id ,this.id)"></i>
+                                </div>
+                            </div>
+                            <% }) %>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+            <%- include('partials/search') %>
+
+                <script>
+                    //sidenav - ARROW v
+                    const arrow = document.querySelector(".arrow");
+                    arrow.addEventListener("click", (e) => {
+                        const parent = e.target.parentElement.parentElement;
+                        console.log(parent);
+                        parent.classList.toggle("show-menu");
+                        // arrow.style.transform="rotate(-180deg)";
+                        arrow.classList.toggle("rotate");
+                    });
+
+                    //Hamburger
+                    const navbar = document.querySelector(".navbar");
+                    const sidebar = document.querySelector(".sideNav");
+                    const sideNavSearch = document.querySelector(".sideNavSearch")
+                    console.log(sideNavSearch);
+
+                    navbar.addEventListener("click", () => {
+                        navbar.classList.toggle("active");
+                        sidebar.classList.toggle("close");
+                        sideNavSearch.classList.toggle("d-none");
+                    })
+
+                    //Profile-arrow v
+                    const profileArrow = document.querySelector(".profile-arrow");
+                    const profileMenu = document.querySelector(".profile-container-option");
+                    console.log(profileMenu);
+                    profileArrow.addEventListener("click", () => {
+                        profileMenu.classList.toggle("open");
+                        profileArrow.classList.toggle("rotate");
+                    })
+
+
+                    function handleOnClickAccept(uid, gid) {
+                        var requestOptions = {
+                            method: 'POST',
+                            redirect: 'follow'
+                        };
+
+                        fetch(`http://localhost:8080/accept/${uid}/${gid}/groupRequest`, requestOptions)
+                            .then(response => response.text())
+                            .then(result => console.log(result))
+                            .catch(error => console.log('error', error));
+
+                        // console.log("CLiked");
+                        const singleReq = document.getElementById(uid);
+                        singleReq.remove();
+                        console.log(uid);
+                        console.log(gid);
+                        
+                        // console.log(singleReq)
+                        alert("You have Accepted the Request")
+                        checkForNullInMain();
+                        chechForNull();
+                    }
+
+                    function handleOnClickReject(uid, gid) {
+                        var requestOptions = {
+                            method: 'POST',
+                            redirect: 'follow'
+                        };
+
+                        fetch(`http://localhost:8080/reject/${uid}/${gid}/groupRequest`, requestOptions)
+                            .then(response => response.text())
+                            .then(result => console.log(result))
+                            .catch(error => console.log('error', error));
+                        console.log("CLiked");
+                        const singleReq = document.getElementById(uid);
+                        // singleReq.classList.add('d-none')
+                        singleReq.remove();
+                        console.log(uid);
+                        console.log(gid);
+                        // console.log(singleReq)
+                        alert("You have Rejected the Request")
+                        checkForNullInMain();
+                        chechForNull();
+                    }
+
+                    function handleOnClickAcceptFrdRequest(uid) {
+                        alert("You have Accepted the Request")
+                        var requestOptions = {
+                            method: 'POST',
+                            redirect: 'follow'
+                        };
+
+                        fetch(`http://localhost:8080/accept/${uid}/friendRequest`, requestOptions)
+                            .then(response => response.text())
+                            .then(result => console.log(result))
+                            .catch(error => console.log('error', error));
+
+                        // console.log("CLiked");
+                        const singleReq = document.getElementById(uid);
+                        singleReq.remove();
+                        console.log(uid);
+                        console.log(gid);
+                        
+                        // console.log(singleReq)
+                        checkForNullInMain();
+                        chechForNull();
+                    }
+
+                    function handleOnClickRejectFrdRequest(uid) {
+                        alert("You have Rejected the Request")
+
+                        var requestOptions = {
+                            method: 'POST',
+                            redirect: 'follow'
+                        };
+
+                        fetch(`http://localhost:8080/reject/${uid}/friendRequest`, requestOptions)
+                            .then(response => response.text())
+                            .then(result => console.log(result))
+                            .catch(error => console.log('error', error));
+                        console.log("CLiked");
+                        const singleReq = document.getElementById(uid);
+                        // singleReq.classList.add('d-none')
+                        singleReq.remove();
+                        console.log(uid);
+                        console.log(gid);
+                        // console.log(singleReq)
+                        checkForNullInMain();
+                        chechForNull();
+                    }
+
+                    function chechForNull() {
+
+                        const wantToJoinId = document.getElementById('wantToJoinId');
+                        // console.log(wantToJoinId.nextElementSibling);
+
+                        if (wantToJoinId.nextElementSibling) {
+                            console.log("Abhi Jinda hai");
+                        }
+                        else {
+                            // wantToJoinId.parentElement.parentElement.classList.add('d-none');
+                            wantToJoinId.parentElement.parentElement.remove();
+                            // console.log(wantToJoinId);
+                        }
+                    }
+                    function checkForNullInMain() {
+
+                        const wantToJoinId = document.getElementById('friendReqHeader');
+                        console.log(wantToJoinId);
+                        if (!wantToJoinId.nextElementSibling.nextElementSibling) {
+                            console.log("Done");
+                            const noFrndReq = document.querySelector('.noRequests');
+                            console.log(noFrndReq);
+                            noFrndReq.classList.remove('d-none')
+                        }
+                    }
+                </script>
+</body>
+
+</html>

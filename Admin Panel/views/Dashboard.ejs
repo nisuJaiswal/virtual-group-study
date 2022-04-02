@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - Dashboard Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/Dashboard.css">
+    <link rel="stylesheet" href="icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <%- include('partials/navbar') %>
+    <div class="container">
+    <%- include('partials/sidenav') %> 
+        <div class="content">
+            <div class="cardContainer">
+                <div class="card card-1">
+                    <div class="subCard">
+                        <h3 class="count" data-target="<%=userCount%>">
+                        </h3>
+                        <h5>
+                            Total Users
+                        </h5>
+                    </div>
+                </div>
+                <div class="card card-2">
+                    <div class="subCard">
+                        <h3 class="count" data-target="<%=groupCount%>">
+                        </h3>
+                        <h5>
+                            Total Groups
+                        </h5>
+                    </div>
+                </div>
+                <div class="card card-3">
+                    <div class="subCard">
+                        <h3 class="count" data-target="<%=materialCount%>">
+                        </h3>
+                        <h5>
+                            Total Materials
+                        </h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chartContainer">
+                <header>
+                    <h3>
+                        New User Analysis:
+                    </h3>
+                </header>
+                <div class="chartWrapper">
+                    <div class="subChartContainer">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="recent">
+                <div class="recentPost">
+                    <header>
+                        <h3>
+                            USERS WHO RECENTLY ADDED POST
+                        </h3>
+                    </header>
+                    <div class="recentPostWrapper">
+                        <% user.forEach((info)=>{ %>
+                            <div class="singleUser">
+                                <div class="imgContainer">
+                                    <img src="<%=info.profilepic%>" alt="User Image">
+                                </div>
+                                <a href="#" class="nameContainer">
+                                    <%=info.firstname%>&nbsp;<%=info.lastname%>
+                                </a>
+                            </div>
+                        <% }) %>
+
+                    </div>
+                </div>
+                <div class="recentUser">
+                    <header>
+                        <h3>
+                            RECENTTLY JOINED USERS(LAST-MONTH)
+                        </h3>
+                    </header>
+                    <div class="recentUserWrapper">
+                        <div class="singleUser">
+                            <div class="imgContainer">
+                                <img src=".././Images/KANSARA.jpeg" alt="">
+                            </div>
+                            <a href="#" class="nameContainer">
+                                Kansara
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <script>
+            //Card Counter
+            const counters = document.querySelectorAll('.count');
+
+            counters.forEach((item) => {
+                item.innerHTML = 0;
+                const updateCounter = () => {
+                    const target = +item.getAttribute('data-target');
+                    const start = + item.innerHTML;
+                    if (start < target) {
+                        item.innerHTML = `${start + 1}`;
+                        setTimeout(updateCounter, 80);
+                    }
+                }
+                updateCounter();
+            })
+
+            //sidenav click
+            const sideBar = document.querySelector('.sideNav');
+
+            //Hamburger
+            const nav = document.querySelector('.navbar');
+            nav.addEventListener('click', () => {
+                nav.classList.toggle('active');
+                sideBar.classList.toggle('sideRes');
+            })
+
+            //Chart
+            const header = document.querySelectorAll('.classH3');
+            header.forEach((d) => {
+                console.log(d.id);
+
+            })
+
+            const labels = [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'OCtober',
+                'Novemeber',
+                'December',
+            ];
+
+            const dt = [];
+            dt[0]='<%-newUserChart[0]%>';
+            dt[1]='<%-newUserChart[1]%>';
+            dt[2]='<%-newUserChart[2]%>';
+            dt[3]='<%-newUserChart[3]%>';
+            dt[4]='<%-newUserChart[4]%>';
+            dt[5]='<%-newUserChart[5]%>';
+            dt[6]='<%-newUserChart[6]%>';
+            dt[7]='<%-newUserChart[7]%>';
+            dt[8]='<%-newUserChart[8]%>';
+            dt[9]='<%-newUserChart[9]%>';
+            dt[10]='<%-newUserChart[10]%>';
+            dt[11]='<%-newUserChart[11]%>';
+
+            console.log(dt);
+            const data = {
+                labels: labels,
+                datasets: [{
+                    label: 'New Joined Users',
+                    borderColor: 'rgb(0, 0, 0)',
+
+                    // DATA PROVIDED HERE
+                    data: dt,
+
+                    backgroundColor: '#1c6392',
+                    // color: 'rgb(255,0,0)'
+                }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    plugins: {
+                        legend: {
+                            // display: false,
+                            position: 'bottom',
+                            align: 'center'
+                        }
+                    }
+                }
+            };
+
+            const myChart = new Chart(document.getElementById('myChart'), config);
+        </script>
+</body>
+
+</html>

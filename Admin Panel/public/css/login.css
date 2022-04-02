@@ -1,0 +1,139 @@
+*{
+    font-family: 'Open Sans', sans-serif;
+    margin: 0px;
+    padding:0px;   
+    color:white; 
+}
+/* html{
+    font-size: 62.5%;
+} */
+nav
+{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+    background-color: #307AAC;
+}
+body{
+    background-color: #e2f3ff;
+}
+nav img
+{
+    width: 25rem;
+}
+.container{
+    border-radius: .8rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;  
+    transform: translate(-50%,-50%);
+    padding: 1.2rem 2.4rem;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;   
+     box-shadow: 0 9px 20px rgb(44 44 44);
+     background-color: white;
+     /* height: 24rem;
+     width:18rem; */
+
+}
+.imgContainer{
+    border: 2px solid rgba(65,65,65);
+    position: relative;
+    width: 10rem;
+    height: 10rem;
+    align-content: center;
+    margin: .7rem auto .6rem auto;
+    /* width: 10rem; */
+    border-radius: 99px;
+}
+.imgContainer img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    height: 8rem;
+    width: 8rem;
+    border-radius: 999px;
+}
+.innerContainer{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+label{
+    height: 100%;
+    padding: 3px;
+}
+.fa
+{
+    font-size: 1.2rem;
+    color:#116299;
+}
+.fa-lock
+{
+    margin-top: .01px;
+}
+.box
+     {
+        display:flex;
+        align-items: center;
+        color:black;
+        background-color:white;
+        border-radius: 999px;
+        padding:0.3rem 0.8rem;
+        margin-top:1rem;
+        border: 2px solid rgb(65, 65, 65);
+        width: 100%;
+     }
+     input[type="text"],input[type="password"]{
+        flex:1;
+        color:black;
+        padding: .34rem .2rem;
+        border: none;
+        border-radius: .4rem;
+        font-size: 1rem;
+        background: none;
+    }
+    input:focus
+    {
+     outline-width:0;
+    }
+    #showPass{
+        cursor: pointer;
+    } 
+.btn
+{
+    text-transform: uppercase;
+    font-size: 1rem ;
+    margin-top: .8rem;
+    padding: .6rem 1.2rem;
+    background-color: #307AAC;
+    border-radius: .3rem;
+    cursor: pointer;
+    border:none;
+}
+input[type="submit"]:hover{
+    background-color: #3fa2e4;
+}
+@media all and (max-width: 768px) {
+    html{
+        font-size: 70%;
+    }
+    .container{
+        height: 300px;
+        width: 200px;
+        margin-top: 3.5rem;
+    }
+}
+@media all and (min-width: 769px){
+     html{
+        font-size: 90%;
+    }
+    .container{
+        margin-top: 3.5rem;
+    } 
+}

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - Sign Up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/newUserForm.css">
+    <link rel="stylesheet" href="icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+
+<body>
+    <nav>
+        <a href="/home"><img src="images\logowhite.png" alt="#"></a>
+    </nav>
+
+    <div class="container">
+        <div class="mainForm">
+            <header>
+                <h1>
+                    Welcome, User
+                </h1>
+            </header>
+            <form action="/storeNewUserData/newUserForm" method="post" enctype="multipart/form-data">
+                <div class="imageContainer">
+                    <div class="imageSubContainer">
+                        <img src="images/defaultProfile.png" alt="" class="profile-pic">
+                    </div>
+                    <i class="fa fa-camera upload-btn" aria-hidden="true"></i>
+                    <input type="file" class="file-upload" name="uploadProfilePic">
+                </div>
+                <div class="fields">
+                    <div class="education">
+                        <label for="education"> Education: </label>
+                        <select name="education">
+
+                            <!-- TO BE CHANGED THIS FIELDS -->
+                            <option value="Not Selected">--Select--</option>
+                            <option value="Under Graduate">Under Graduate</option>
+                            <option value="Post Graduate">Post Graduate</option>
+                            <option value="Graduate">Graduate</option>
+                            <option value="High School">High School</option>
+                        </select>
+                    </div>
+                    <div class="interestedFields">
+                        <label for="Interested Fields"> Intrested Fields: </label>
+                        <div class="checkboxContainer">
+                            <div class="divRow">
+                                <div class="checkLabel">
+                                    <input type="checkbox" name="interestedFields[]" value="Engineering">
+                                    <label for="interestedFields[]">Engineering</label>
+                                </div>
+                                <div class="checkLabel">
+                                    <input type="checkbox" name="interestedFields[]" value="Architechture">
+                                    <label for="interestedFields[]">Architechture</label>
+                                </div>
+                                <div class="checkLabel">
+                                    <input type="checkbox" name="interestedFields[]" value="Enviromental Studies">
+                                    <label for="interestedFields[]">Enviromental Studies</label>
+                                </div>
+                            </div>
+                            <div class="divRow">
+                                <div class="checkLabel">
+                                    <input type="checkbox" name="interestedFields[]" value="Law">
+                                    <label for="interestedFields[]">Law</label>
+                                </div>
+                                <div class="checkLabel">
+                                    <input type="checkbox" name="interestedFields[]" value="Chemistry">
+                                    <label for="interestedFields[]">Chemistry</label>
+                                </div>
+                                <div class="checkLabel">
+                                    <input type="checkbox" name="interestedFields[]" value="Social Science">
+                                    <label for="interestedFields[]">Social Science</label>
+                                </div>
+                            </div>
+                            <div class="divRow">
+                                <div class="checkLabel">
+                                    <input type="checkbox" name="interestedFields[]" value="Computer Science">
+                                    <label for="interestedFields[]">Computer Science</label>
+                                </div>
+                                <div class="checkLabel">
+                                    <input type="checkbox" name="interestedFields[]" value="Arts and Cultures">
+                                    <label for="interestedFields[]">Arts and Cultures</label>
+                                </div>
+                                <div class="checkLabel">
+                                    <input type="checkbox" name="interestedFields[]" value="Science">
+                                    <label for="interestedFields[]">Science</label>
+                                </div>
+                            </div>
+                            <div class="divRow">
+                                <div class="checkLabel">
+                                    <input type="checkbox" name="interestedFields[]" value="Design">
+                                    <label for="interestedFields[]">Design</label>
+                                </div>
+                                <div class="checkLabel">
+                                    <input type="checkbox" name="interestedFields[]" value="Physics">
+                                    <label for="interestedFields[]">Physics</label>
+                                </div>
+                                <div class="checkLabel">
+                                    <input type="checkbox" name="interestedFields[]" value="Pharmacy">
+                                    <label for="interestedFields[]">Pharmacy</label>
+                                </div>
+                            </div>
+                            <div class="divRow">
+                                <div class="checkLabel">
+                                    <input type="checkbox" name="interestedFields[]" value="Biology">
+                                    <label for="interestedFields[]">Biology</label>
+                                </div>
+                                <div class="checkLabel">
+                                    <input type="checkbox" name="interestedFields[]" value="Mathematics">
+                                    <label for="interestedFields[]">Mathematics</label>
+                                </div>
+                                <div class="checkLabel">
+                                    <input type="checkbox" name="interestedFields[]" value="Astronomy">
+                                    <label for="interestedFields[]">Astronomy</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btnSubmit">
+                    <input type="submit" value="Create">
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        const profilePic = document.querySelector('.profile-pic');
+        const fileUpload = document.querySelector('.file-upload');
+        const uploadBtn = document.querySelector('.upload-btn');
+        // console.log(uploadBtn);
+
+        var readUrl = function (input) {
+            if(input.files && input.files[0]){
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    profilePic.setAttribute('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }   
+        fileUpload.addEventListener('change', function(){
+            readUrl(this);
+        })
+        uploadBtn.addEventListener('click', function(){
+            fileUpload.click();
+        })
+    </script>
+</body>
+
+</html>

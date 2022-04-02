@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - Upload Files</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/upload.css">
+    <link rel="stylesheet" href="icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+
+<body>
+    <nav>
+        <div class="navbar">
+            <div class="line"></div>
+        </div>
+
+        <%- include('partials/profileButton') %>
+    </nav>
+    <div class="container">
+        <%- include('partials/sidenav') %>
+        <div class="content">
+            <div class="mainContainer">
+                <header>
+                    <h2>
+                        Upload Material
+                    </h2>
+                </header>
+                    
+                    <form action="/upload/material" method="POST" enctype="multipart/form-data">
+                        <input type="text" class="materialInfo" name="materialTitle" placeholder="Enter Title Here" required>
+                        <input type="text" class="materialInfo" name="materialDesc" placeholder="Enter Description Here" required>
+
+                        <section class="uploadContainer">
+                            <div class="dropzone">
+                                <div class="icon-container">
+
+                                    <img src="images/file.svg" class="center" draggable="false" alt="File Icon">
+                                    <img src="images/file.svg" class="left" draggable="false" alt="File Icon">
+                                    <img src="images/file.svg" class="right" draggable="false" alt="File Icon">
+
+                                </div>
+                                <input type="file" id="inputFile" name="uploadMaterial" required>
+                                <div class="dropFiles">
+                                    Drop Your Files Here or,
+                                    <span class="browseBtn"> Browse</span>
+                                </div>
+                                <div class="fileDropped d-none">
+                                    <p id="filePath">
+                                        Nisarg Kansara Rakeshbhai
+                                        <span class='close'></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <div class="materialTags materialInfo" data-name="materialTags">
+                            <!-- <span class="tag">HTML<span class="close"></span></span>
+                            <span class="tag">CSS<span class="close"></span></span>
+                            <span class="tag">JS<span class="close"></span></span>
+                            <input type="text" class="mainInput"> -->
+                        </div>
+
+                        <div class="btnSubmit">
+                            <input type="submit" value="Upload">
+                        </div>
+                    </form>
+
+            </div>
+        </div>
+        <%- include('partials/search') %>
+        
+        <script src="js/upload.js"></script>
+</body>
+
+</html>

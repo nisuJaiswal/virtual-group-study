@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Group - Groups </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/adminGroupDetails.css">
+    <link rel="stylesheet" href="../../icomoon\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="navbar">
+            <div class="line"></div>
+        </div>
+        <img src="../../Images\LOGO.png" alt="Logo">
+        <a href="/logout">
+            <i class="fa fa-power-off" aria-hidden="true"></i>
+        </a>
+    </nav>
+    <div class="container">
+    <%- include('partials/sidenav') %> 
+        <div class="content">
+            <div class="mainContainer">
+                <header>
+                    <h1>
+                        Group Information
+                    </h1>
+                </header>
+
+                <div class="imgDetailsWrapper">
+
+                    <div class="imageContainer">
+                        <div class="imageSubContainer">
+                            <img src="<%=group.grouppic%>" alt="Group Image" class="profile-pic">
+                        </div>
+                    </div>
+
+                    <div class="inputContainer">
+                        <div class="inputSubContainer">
+                            <span class="inputField"><%=group.title%></span>
+                        </div>
+
+                        <div class="inputSubContainer">
+                            <span class="inputField"><%=group.description%></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="participantWrapper">
+                    <header>
+                        Participants (<%=group.memberid.length%>):
+                    </header>
+
+                    <div class="participantContainer">
+
+                        <!-- SINGLE CONTAINER FOR A PARTICIPANT -->
+                        <div class="participant">
+                            <div class="partImgContainer">
+                                <img src="<%=admin.profilepic%>" alt="Admin Image">
+                            </div>
+                            <a href="../../admin-user/<%=admin._id%>/detail" class="userName">
+                                <%=admin.firstname%>&nbsp;<%=admin.lastname%>
+                            </a>
+                            <span class="admin">
+                                Admin
+                            </span>
+                        </div>
+                        <!-- END OF CONTAINER -->
+
+                        <!-- ANOTHER CONTAINER -->
+                        <% participants.forEach((user)=>{ %>
+                            <div class="participant">
+                                <div class="partImgContainer">
+                                    <img src="<%=user.profilepic%>" alt="User Info">
+                                </div>
+                                <a href="../../admin-user/<%=user._id%>/detail" class="userName">
+                                    <%=user.firstname%>&nbsp;<%=user.lastname%>
+                                </a>
+                            </div>
+                        <% }) %>
+                        <!-- END OF CONTAINER -->
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            //sidenav click
+            const sideBar = document.querySelector('.sideNav');
+
+            //Hamburger
+            const nav = document.querySelector('.navbar');
+            nav.addEventListener('click', () => {
+                nav.classList.toggle('active');
+                sideBar.classList.toggle('sideRes');
+            })
+        </script>
+</body>
+
+</html>

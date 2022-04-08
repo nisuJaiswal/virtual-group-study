@@ -4,10 +4,10 @@ const fs = require("fs");
 
 require("dotenv").config();
 
-CLIENT_ID = "1084047056785-ggbm42gcsdhfo6frqupapdu5npru2iv3.apps.googleusercontent.com";
-CLIENT_SECRET = "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";
-REDIRECT_URI = "https://developers.google.com/oauthplayground";
-REFRESH_TOKEN = "1//04mnpzkgActQ-CgYIARAAGAQSNwF-L9IrOSRdEpCFUJANn_C1O2cVV3fK6erLohHJ2nc340iY0CN6ZEo2DbPjoQgFSAxc1J4JtLk";
+CLIENT_ID = process.env.CLIENT_ID
+CLIENT_SECRET = process.env.CLIENT_SECRET;
+REDIRECT_URI = process.env.REDIRECT_URI;
+REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
 const oauth2client = new google.auth.OAuth2(
     CLIENT_ID,
